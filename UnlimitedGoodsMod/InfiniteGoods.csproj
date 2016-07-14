@@ -7,8 +7,8 @@
     <ProjectGuid>{BE48E758-481B-4DB4-91FB-7BFCEF8C280F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnlimitedGoodsMod</RootNamespace>
-    <AssemblyName>UnlimitedGoodsMod</AssemblyName>
+    <RootNamespace>InfiniteGoodsMod</RootNamespace>
+    <AssemblyName>InfiniteGoodsMod</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

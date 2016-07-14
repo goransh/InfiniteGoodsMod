@@ -1,12 +1,12 @@
 ﻿using ICities;
 
-namespace UnlimitedGoodsMod
+namespace InfiniteGoodsMod
 {
     public class ModIdentity : IUserMod
     {
-        public string Name => "Unlimited Goods";
+        public string Name => "Infinite Goods";
 
-        public string Description => "Commercial buildings never run out of goods.";
+        public string Description => "Commercial buildings have infinite goods.";
 
     }
 }
