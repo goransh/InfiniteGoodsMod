@@ -1,12 +1,7 @@
-﻿using ColossalFramework.IO;
-using ColossalFramework.Steamworks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 
 using static TransferManager.TransferReason;
 
@@ -28,10 +23,10 @@ namespace InfiniteGoodsMod
 
             foreach(TransferManager.TransferReason reason in supportedIndustry)
             {
-                set(reason, false);
+                Set(reason, false);
             }
 
-            set(Goods, true);
+            Set(Goods, true);
         }
 
         private Settings(Dictionary<string, bool> dictionary)
@@ -39,7 +34,7 @@ namespace InfiniteGoodsMod
             this.dictionary = dictionary;
         }
 
-        public static Settings getInstance()
+        public static Settings GetInstance()
         {
             if(instance == null)
             {
@@ -57,7 +52,7 @@ namespace InfiniteGoodsMod
             }
             else
             {
-                instance = ReadXml();
+                ReadXml();
                 instance.WriteXml();
             }
         }
@@ -93,7 +88,7 @@ namespace InfiniteGoodsMod
 
         }
 
-        private static Settings ReadXml()
+        private static void ReadXml()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(configPath);
@@ -107,15 +102,15 @@ namespace InfiniteGoodsMod
             {
                 dict[node.Name] = Boolean.Parse(node.InnerText);
             }
-            return new Settings(dict);
+            instance = new Settings(dict);
         }
 
-        public bool get(TransferManager.TransferReason reason)
+        public bool Get(TransferManager.TransferReason reason)
         {
-            return get(reason.ToString());
+            return Get(reason.ToString());
         }
 
-        public bool get(string reason)
+        public bool Get(string reason)
         {
             if (!dictionary.ContainsKey(reason))
             {
@@ -125,13 +120,13 @@ namespace InfiniteGoodsMod
             return dictionary[reason];
         }
 
-        public void set(TransferManager.TransferReason reason, bool value)
+        public void Set(TransferManager.TransferReason reason, bool value)
         {
-            set(reason.ToString(), value);
+            Set(reason.ToString(), value);
         }
 
 
-        public void set(string reason, bool value)
+        public void Set(string reason, bool value)
         {
             dictionary[reason] = value;
         }

@@ -16,7 +16,7 @@ namespace InfiniteGoodsMod
         {
             buildingManager = Singleton<BuildingManager>.instance;
             simulationManager = Singleton<SimulationManager>.instance;
-            settings = Settings.getInstance();
+            settings = Settings.GetInstance();
         }
 
         public override void OnAfterSimulationTick()
@@ -52,7 +52,7 @@ namespace InfiniteGoodsMod
 
         private void FillCommercialBuilding(ushort i, CommercialBuildingAI ai)
         {
-            if (settings.get(Goods))
+            if (settings.Get(Goods))
             {
                 int goods = 100000;
                 ai.ModifyMaterialBuffer(i, ref buildingManager.m_buildings.m_buffer[i], Goods, ref goods);
@@ -65,7 +65,7 @@ namespace InfiniteGoodsMod
             int value;
             foreach (TransferManager.TransferReason reason in Settings.supportedIndustry)
             {
-                if (settings.get(reason))
+                if (settings.Get(reason))
                 {
                     value = 10000;
                     ai.ModifyMaterialBuffer(i, ref buildingManager.m_buildings.m_buffer[i], reason, ref value);

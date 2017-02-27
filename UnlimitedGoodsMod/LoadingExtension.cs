@@ -1,22 +1,21 @@
-﻿using ColossalFramework.IO;
-using ColossalFramework.Steamworks;
-using ICities;
+﻿using ICities;
 using System;
-using UnityEngine;
+
+using static ColossalFramework.Plugins.PluginManager.MessageType;
 
 namespace InfiniteGoodsMod.UI
 {
     public class LoadingExtension : LoadingExtensionBase
     {
 
-        public static void Log(String message)
+        public static void Log(String message, ColossalFramework.Plugins.PluginManager.MessageType type = Message)
         {
-            DebugOutputPanel.AddMessage(ColossalFramework.Plugins.PluginManager.MessageType.Message, message);
+            DebugOutputPanel.AddMessage(type, "[Infinite Goods] " + message);
         }
 
         public override void OnLevelLoaded(LoadMode mode) 
         {
-            Log("[Infinite Goods] Loaded version 2.0");
+            Log("Loaded version 2.1");
         }
 
         public override void OnLevelUnloading()

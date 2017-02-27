@@ -1,8 +1,4 @@
 ﻿using ICities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using static TransferManager.TransferReason;
 
@@ -18,27 +14,27 @@ namespace InfiniteGoodsMod
             this.settings = settings;
         }
 
-        public void createPanel(UIHelperBase helper)
+        public void CreatePanel(UIHelperBase helper)
         {
-            UIHelperBase commercialGroup = helper.AddGroup("Commercial Buildings");
-            commercialGroup.AddCheckbox("Goods", settings.get(Goods), GoodsCheck);
+            UIHelperBase commercialGroup = helper.AddGroup("Fill Commercial Buildings");
+            commercialGroup.AddCheckbox("Goods", settings.Get(Goods), GoodsCheck);
 
-            UIHelperBase specializedIndustrialGroup = helper.AddGroup("Specialized Industry (Raw materials)");
-            specializedIndustrialGroup.AddCheckbox("Oil", settings.get(Oil), OilCheck);
-            specializedIndustrialGroup.AddCheckbox("Ore", settings.get(Ore), OreCheck);
-            specializedIndustrialGroup.AddCheckbox("Grain", settings.get(Grain), GrainCheck);
-            specializedIndustrialGroup.AddCheckbox("Logs", settings.get(Logs), LogsCheck);
+            UIHelperBase specializedIndustrialGroup = helper.AddGroup("Fill Specialized Industry (with raw materials)");
+            specializedIndustrialGroup.AddCheckbox("Oil", settings.Get(Oil), OilCheck);
+            specializedIndustrialGroup.AddCheckbox("Ore", settings.Get(Ore), OreCheck);
+            specializedIndustrialGroup.AddCheckbox("Grain", settings.Get(Grain), GrainCheck);
+            specializedIndustrialGroup.AddCheckbox("Logs", settings.Get(Logs), LogsCheck);
 
-            UIHelperBase genericIndustrialGroup = helper.AddGroup("Generic Industry (Processed materials)");
-            genericIndustrialGroup.AddCheckbox("Petrol", settings.get(Petrol), PetrolCheck);
-            genericIndustrialGroup.AddCheckbox("Coal", settings.get(Coal), CoalCheck);
-            genericIndustrialGroup.AddCheckbox("Food", settings.get(Food), FoodCheck);
-            genericIndustrialGroup.AddCheckbox("Lumber", settings.get(Lumber), LumberCheck);
+            UIHelperBase genericIndustrialGroup = helper.AddGroup("Fill Generic Industry (with processed materials)");
+            genericIndustrialGroup.AddCheckbox("Petrol", settings.Get(Petrol), PetrolCheck);
+            genericIndustrialGroup.AddCheckbox("Coal", settings.Get(Coal), CoalCheck);
+            genericIndustrialGroup.AddCheckbox("Food", settings.Get(Food), FoodCheck);
+            genericIndustrialGroup.AddCheckbox("Lumber", settings.Get(Lumber), LumberCheck);
         }
 
         private void SetSetting(TransferManager.TransferReason reason, bool value)
         {
-            settings.set(reason, value);
+            settings.Set(reason, value);
             Settings.SaveSettings();
         }
 

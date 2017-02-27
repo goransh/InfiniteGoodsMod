@@ -8,13 +8,13 @@ namespace InfiniteGoodsMod
 
         public string Name => "Infinite Goods";
 
-        public string Description => "Commercial buildings have infinite goods. Version 2.0";
+        public string Description => "Remove the need for industry. Version 2.1";
 
 
         public void OnSettingsUI(UIHelperBase helper)
         {
-            SettingsPanel sp = new SettingsPanel(Settings.getInstance());
-            sp.createPanel(helper);
+            SettingsPanel sp = new SettingsPanel(Settings.GetInstance());
+            sp.CreatePanel(helper);
         }
 
         
