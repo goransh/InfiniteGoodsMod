@@ -15,14 +15,12 @@ namespace InfiniteGoodsMod.UI
 
         public override void OnLevelLoaded(LoadMode mode) 
         {
-            Log("Loaded version 2.1");
+            Log("Loaded version " + ModIdentity.Version);
         }
 
         public override void OnLevelUnloading()
         {
-            Settings.SaveSettings();
+            Settings.GetInstance().SaveSettings();
         }
-
-
     }
 }
