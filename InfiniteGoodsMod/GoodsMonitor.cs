@@ -20,7 +20,7 @@ namespace InfiniteGoodsMod {
         };
 
         private static readonly TransferManager.TransferReason[] industryTransferReasons = {
-            Oil, Coal, Grain, Logs, Petrol, Ore, Food, Lumber
+            Oil, Ore, Grain, Logs, Petrol, Coal, Food, Lumber
         };
 
         /// <summary>
