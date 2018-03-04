@@ -4,7 +4,7 @@ namespace InfiniteGoodsMod {
     public class ModIdentity : IUserMod {
 
         public const ulong WorkshopId = 725555912;
-        public const string Version = "3.0.beta1";
+        public const string Version = "3.0";
 
         public string Name => "Infinite Goods";
 
