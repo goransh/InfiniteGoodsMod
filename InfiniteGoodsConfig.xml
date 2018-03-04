@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings>
+  <Oil>False</Oil>
+  <Coal>False</Coal>
+  <Grain>False</Grain>
+  <Logs>False</Logs>
+  <Petrol>False</Petrol>
+  <Ore>False</Ore>
+  <Food>False</Food>
+  <Lumber>False</Lumber>
+  <Goods>True</Goods>
+</settings>
