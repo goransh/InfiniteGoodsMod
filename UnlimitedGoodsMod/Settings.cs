@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-
 namespace InfiniteGoodsMod {
+
     public enum Setting {
         CommercialGoods,
         SpecializedOil,
-        SpecializedCoal,
+        SpecializedOre,
         SpecializedGrain,
         SpecializedLogs,
         GenericPetrol,
-        GenericOre,
+        GenericCoal,
         GenericFood,
         GenericLumber,
         ShelterGoods
     }
-
 
     public class Settings {
         private static Settings instance;
@@ -48,11 +47,7 @@ namespace InfiniteGoodsMod {
         }
 
         public bool Get(Setting setting) {
-            if (!dictionary.ContainsKey(setting)) {
-                return false;
-            }
-
-            return dictionary[setting];
+            return dictionary.ContainsKey(setting) && dictionary[setting];
         }
 
         public void Set(Setting setting, bool value) {
@@ -60,7 +55,7 @@ namespace InfiniteGoodsMod {
         }
 
         public static Dictionary<Setting, bool> GenerateDefaultSettings() {
-            Dictionary<Setting, bool> dictionary = new Dictionary<Setting, bool>();
+            var dictionary = new Dictionary<Setting, bool>();
 
             foreach (Setting setting in Enum.GetValues(typeof(Setting))) {
                 dictionary[setting] = false;
@@ -112,7 +107,7 @@ namespace InfiniteGoodsMod {
             if (root.Count != 0) {
                 // old settings document
                 var nodes = root[0].ChildNodes;
-                return LoadOldSettingsFile(ref nodes);
+                return LoadV2SettingsFile(ref nodes);
             }
 
             var rootNode = doc.GetElementsByTagName(rootNodeName)[0];
@@ -130,7 +125,7 @@ namespace InfiniteGoodsMod {
                 return ReadXml();
             }
 
-            Dictionary<Setting, bool> dict = new Dictionary<Setting, bool>();
+            var dict = new Dictionary<Setting, bool>();
 
             foreach (XmlNode node in settingNodes) {
                 dict[(Setting) Enum.Parse(typeof(Setting), node.Name)] = bool.Parse(node.InnerText);
@@ -139,8 +134,11 @@ namespace InfiniteGoodsMod {
             return dict;
         }
 
-        private static Dictionary<Setting, bool> LoadOldSettingsFile(ref XmlNodeList settingNodes) {
-            Dictionary<Setting, bool> dict = new Dictionary<Setting, bool>();
+        /// <summary>
+        /// Used for updating settings files created before version 3.0 to the new style.
+        /// </summary>
+        private static Dictionary<Setting, bool> LoadV2SettingsFile(ref XmlNodeList settingNodes) {
+            var dict = new Dictionary<Setting, bool>();
 
             foreach (XmlNode node in settingNodes) {
                 bool parsed = bool.Parse(node.InnerText);
@@ -151,8 +149,8 @@ namespace InfiniteGoodsMod {
                     case "Oil":
                         dict[Setting.SpecializedOil] = parsed;
                         break;
-                    case "Coal":
-                        dict[Setting.SpecializedCoal] = parsed;
+                    case "Ore":
+                        dict[Setting.SpecializedOre] = parsed;
                         break;
                     case "Grain":
                         dict[Setting.SpecializedGrain] = parsed;
@@ -163,8 +161,8 @@ namespace InfiniteGoodsMod {
                     case "Petrol":
                         dict[Setting.GenericPetrol] = parsed;
                         break;
-                    case "Ore":
-                        dict[Setting.GenericOre] = parsed;
+                    case "Coal":
+                        dict[Setting.GenericCoal] = parsed;
                         break;
                     case "Food":
                         dict[Setting.GenericFood] = parsed;
@@ -174,6 +172,8 @@ namespace InfiniteGoodsMod {
                         break;
                 }
             }
+
+            dict[Setting.ShelterGoods] = false;
 
             WriteXml(dict);
 

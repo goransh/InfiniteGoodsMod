@@ -1,25 +1,17 @@
-﻿using ICities;
-using System;
+﻿using ColossalFramework.Plugins;
+using ICities;
 
-using static ColossalFramework.Plugins.PluginManager.MessageType;
-
-namespace InfiniteGoodsMod.UI
-{
-    public class LoadingExtension : LoadingExtensionBase
-    {
-
-        public static void Log(String message, ColossalFramework.Plugins.PluginManager.MessageType type = Message)
-        {
+namespace InfiniteGoodsMod {
+    public class LoadingExtension : LoadingExtensionBase {
+        public static void Log(string message, PluginManager.MessageType type = PluginManager.MessageType.Message) {
             DebugOutputPanel.AddMessage(type, "[Infinite Goods] " + message);
         }
 
-        public override void OnLevelLoaded(LoadMode mode) 
-        {
+        public override void OnLevelLoaded(LoadMode mode) {
             Log("Loaded version " + ModIdentity.Version);
         }
 
-        public override void OnLevelUnloading()
-        {
+        public override void OnLevelUnloading() {
             Settings.GetInstance().SaveSettings();
         }
     }

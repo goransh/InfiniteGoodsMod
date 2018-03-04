@@ -10,11 +10,11 @@ namespace InfiniteGoodsMod {
 
         private static readonly Setting[] industrySettings = {
             SpecializedOil,
-            SpecializedCoal,
+            SpecializedOre,
             SpecializedGrain,
             SpecializedLogs,
             GenericPetrol,
-            GenericOre,
+            GenericCoal,
             GenericFood,
             GenericLumber
         };
@@ -46,7 +46,7 @@ namespace InfiniteGoodsMod {
 
         /// <summary>
         /// Every simulaion tick, a portion of the buildings in the game will be filled with resources.
-        /// The building type is checked and if the building is a commercial or industrial buidling, 
+        /// The building type is checked and if the building is a commercial, shelter or industrial buidling, 
         /// the building will be filled with goods (if the setting for the goods type is activated).
         /// </summary>
         public override void OnAfterSimulationTick() {

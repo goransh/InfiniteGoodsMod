@@ -1,5 +1,4 @@
 ﻿using ICities;
-using static TransferManager.TransferReason;
 
 namespace InfiniteGoodsMod {
     internal class SettingsPanel {
@@ -15,13 +14,13 @@ namespace InfiniteGoodsMod {
 
             UIHelperBase specializedIndustrialGroup = helper.AddGroup("Fill Specialized Industry (with raw materials)");
             AddCheckbox(specializedIndustrialGroup, Setting.SpecializedOil, "Oil");
-            AddCheckbox(specializedIndustrialGroup, Setting.SpecializedCoal, "Coal");
+            AddCheckbox(specializedIndustrialGroup, Setting.SpecializedOre, "Ore");
             AddCheckbox(specializedIndustrialGroup, Setting.SpecializedGrain, "Grain");
             AddCheckbox(specializedIndustrialGroup, Setting.SpecializedLogs, "Logs");
 
             UIHelperBase genericIndustrialGroup = helper.AddGroup("Fill Generic Industry (with processed materials)");
             AddCheckbox(genericIndustrialGroup, Setting.GenericPetrol, "Petrol");
-            AddCheckbox(genericIndustrialGroup, Setting.GenericOre, "Ore");
+            AddCheckbox(genericIndustrialGroup, Setting.GenericCoal, "Coal");
             AddCheckbox(genericIndustrialGroup, Setting.GenericFood, "Food");
             AddCheckbox(genericIndustrialGroup, Setting.GenericLumber, "Lumber");
 
