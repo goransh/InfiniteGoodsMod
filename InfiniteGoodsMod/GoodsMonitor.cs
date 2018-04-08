@@ -64,7 +64,8 @@ namespace InfiniteGoodsMod {
                 if (settings.Get(Setting.CommercialGoods) && ai is CommercialBuildingAI) {
                     //fill commercial builing with goods
                     FillBuilding(ref buildingId, ai, TransferManager.TransferReason.Goods);
-                }else if (settings.Get(Setting.ShelterGoods) && ai is ShelterAI) {
+                }
+                else if (settings.Get(Setting.ShelterGoods) && ai is ShelterAI) {
                     //fill shleters with goods
                     FillBuilding(ref buildingId, ai, TransferManager.TransferReason.Goods);
                 }

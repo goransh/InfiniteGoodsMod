@@ -4,7 +4,6 @@ using System.IO;
 using System.Xml;
 
 namespace InfiniteGoodsMod {
-
     public enum Setting {
         CommercialGoods,
         SpecializedOil,
@@ -101,7 +100,17 @@ namespace InfiniteGoodsMod {
             checkFileExists();
 
             XmlDocument doc = new XmlDocument();
-            doc.Load(configPath);
+
+            try {
+                doc.Load(configPath);
+            }
+            catch (System.Xml.XmlException) {
+                var defaultSettings = Settings.GenerateDefaultSettings();
+                WriteXml(defaultSettings);
+                LoadingExtension.Log(
+                    "Unable to load the settings file for Infinite Goods. The settings for this mod has been reset.");
+                return defaultSettings;
+            }
 
             XmlNodeList root = doc.GetElementsByTagName("settings");
             if (root.Count != 0) {
