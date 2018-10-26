@@ -25,6 +25,22 @@ namespace InfiniteGoodsMod {
             AddCheckbox(genericIndustrialGroup, GoodsTransfer.GenericFood, "Food");
             AddCheckbox(genericIndustrialGroup, GoodsTransfer.GenericLumber, "Lumber");
 
+            UIHelperBase playerRawIndustryGroup = helper.AddGroup("Fill Player Industry with");
+            AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawOil, "Oil");
+            AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawOre, "Ore");
+            AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawFarming, "Farming");
+            AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawForestry, "Forestry");
+
+            UIHelperBase uniqueFactoriesGroup = helper.AddGroup("Fill Unique Factories with");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedAnimalProducts, "Animal Products");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedFlours, "Flours");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedPaper, "Paper");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedPlanedTimber, "Planed Timber");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedPetroleum, "Petroleum");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedPlastics, "Plastics");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedGlass, "Glass");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedMetals, "Metals");
+
             UIHelperBase shelterGroup = helper.AddGroup("Fill Shelters with");
             AddCheckbox(shelterGroup, GoodsTransfer.ShelterGoods, "Food");
         }
