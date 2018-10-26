@@ -40,6 +40,7 @@ namespace InfiniteGoodsMod {
             AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedPlastics, "Plastics");
             AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedGlass, "Glass");
             AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedMetals, "Metals");
+            AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedGrain, "Grain");
 
             UIHelperBase shelterGroup = helper.AddGroup("Fill Shelters with");
             AddCheckbox(shelterGroup, GoodsTransfer.ShelterGoods, "Food");
