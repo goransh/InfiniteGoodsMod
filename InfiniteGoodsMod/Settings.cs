@@ -1,113 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
 namespace InfiniteGoodsMod {
-    public enum Setting {
-        CommercialGoods,
-        SpecializedOil,
-        SpecializedOre,
-        SpecializedGrain,
-        SpecializedLogs,
-        GenericPetrol,
-        GenericCoal,
-        GenericFood,
-        GenericLumber,
-        ShelterGoods
-    }
-
     public class Settings {
-        private static Settings instance;
+        private static Settings Instance;
 
-        private readonly Dictionary<Setting, bool> dictionary;
+        private readonly HashSet<string> ActiveTransfers;
 
-        private Settings(Dictionary<Setting, bool> dictionary) {
-            this.dictionary = dictionary;
+        private Settings(HashSet<string> activeTransfers) {
+            this.ActiveTransfers = activeTransfers;
         }
 
         public static Settings GetInstance() {
-            if (instance == null) {
+            if (Instance == null) {
                 LoadSettings();
             }
 
-            return instance;
+            return Instance;
         }
 
         private static void LoadSettings() {
-            instance = new Settings(XMLUtil.ReadXml());
+            Instance = new Settings(XmlUtil.ReadXml());
         }
 
         public void SaveSettings() {
-            if (instance == null)
-                LoadSettings();
+            if (Instance == null)
+                LoadSettings(); // save default settings
             else
-                XMLUtil.WriteXml(dictionary);
+                XmlUtil.WriteXml(ActiveTransfers);
         }
 
-        public bool Get(Setting setting) {
-            return dictionary.ContainsKey(setting) && dictionary[setting];
+        public bool Get(string setting) {
+            return ActiveTransfers.Contains(setting);
         }
 
-        public void Set(Setting setting, bool value) {
-            dictionary[setting] = value;
+        public void Set(string setting, bool active) {
+            if (active)
+                ActiveTransfers.Add(setting);
+            else
+                ActiveTransfers.Remove(setting);
         }
 
-        public static Dictionary<Setting, bool> GenerateDefaultSettings() {
-            var dictionary = new Dictionary<Setting, bool>();
-
-            foreach (Setting setting in Enum.GetValues(typeof(Setting))) {
-                dictionary[setting] = false;
-            }
-
-            dictionary[Setting.CommercialGoods] = true;
-            return dictionary;
+        public static HashSet<string> GenerateDefaultSettings() {
+            return new HashSet<string> {GoodsTransfer.CommercialGoods.Id};
         }
     }
 
-    internal static class XMLUtil {
-        private const string configPath = "InfiniteGoodsConfig.xml";
-        private const string rootNodeName = "InfiniteGoods";
+    internal static class XmlUtil {
+        private const string ConfigPath = "InfiniteGoodsConfig.xml";
+        private const string RootNodeName = "InfiniteGoods";
 
-        private static void checkFileExists() {
-            if (!File.Exists(configPath)) {
+        private static void CheckFileExists() {
+            if (!File.Exists(ConfigPath)) {
                 WriteXml(Settings.GenerateDefaultSettings());
             }
         }
 
-        public static void WriteXml(Dictionary<Setting, bool> dictionary) {
+        public static void WriteXml(HashSet<string> set) {
             XmlDocument doc = new XmlDocument();
 
             XmlDeclaration xmldecl = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
             XmlElement root = doc.DocumentElement;
             doc.InsertBefore(xmldecl, root);
 
-            XmlElement rootNode = (XmlElement) doc.AppendChild(doc.CreateElement(rootNodeName));
+            XmlElement rootNode = (XmlElement) doc.AppendChild(doc.CreateElement(RootNodeName));
             XmlNode versionNode = rootNode.AppendChild(doc.CreateElement("Version"));
             versionNode.InnerText = ModIdentity.Version;
 
             XmlNode settingsNode = rootNode.AppendChild(doc.CreateElement("Settings"));
 
-            foreach (var entry in dictionary) {
-                XmlNode setting = settingsNode.AppendChild(doc.CreateElement(entry.Key.ToString()));
-                setting.InnerText = entry.Value.ToString();
+            foreach (var transfer in GoodsTransfer.GoodsTransfers) {
+                XmlNode setting = settingsNode.AppendChild(doc.CreateElement(transfer.Id));
+                setting.InnerText = set.Contains(transfer.Id).ToString();
             }
 
-            doc.Save(configPath);
+            doc.Save(ConfigPath);
         }
 
-        public static Dictionary<Setting, bool> ReadXml() {
-            checkFileExists();
+        public static HashSet<string> ReadXml() {
+            CheckFileExists();
 
             XmlDocument doc = new XmlDocument();
 
             try {
-                doc.Load(configPath);
+                doc.Load(ConfigPath);
             }
-            catch (System.Xml.XmlException) {
+            catch (XmlException) {
                 var defaultSettings = Settings.GenerateDefaultSettings();
                 WriteXml(defaultSettings);
-                LoadingExtension.Log(
+                Utils.Log(
                     "Unable to load the settings file for Infinite Goods. The settings for this mod has been reset.");
                 return defaultSettings;
             }
@@ -119,7 +101,7 @@ namespace InfiniteGoodsMod {
                 return LoadV2SettingsFile(ref nodes);
             }
 
-            var rootNode = doc.GetElementsByTagName(rootNodeName)[0];
+            var rootNode = doc.GetElementsByTagName(RootNodeName)[0];
             XmlNodeList settingNodes = null;
 
             foreach (XmlNode childNode in rootNode.ChildNodes) {
@@ -134,59 +116,59 @@ namespace InfiniteGoodsMod {
                 return ReadXml();
             }
 
-            var dict = new Dictionary<Setting, bool>();
+            var set = new HashSet<string>();
 
             foreach (XmlNode node in settingNodes) {
-                dict[(Setting) Enum.Parse(typeof(Setting), node.Name)] = bool.Parse(node.InnerText);
+                if (bool.Parse(node.InnerText))
+                    set.Add(node.Name);
             }
 
-            return dict;
+            return set;
         }
 
         /// <summary>
         /// Used for updating settings files created before version 3.0 to the new style.
         /// </summary>
-        private static Dictionary<Setting, bool> LoadV2SettingsFile(ref XmlNodeList settingNodes) {
-            var dict = new Dictionary<Setting, bool>();
+        private static HashSet<string> LoadV2SettingsFile(ref XmlNodeList settingNodes) {
+            var set = new HashSet<string>();
 
             foreach (XmlNode node in settingNodes) {
-                bool parsed = bool.Parse(node.InnerText);
-                switch (node.Name) {
-                    case "Goods":
-                        dict[Setting.CommercialGoods] = parsed;
-                        break;
-                    case "Oil":
-                        dict[Setting.SpecializedOil] = parsed;
-                        break;
-                    case "Ore":
-                        dict[Setting.SpecializedOre] = parsed;
-                        break;
-                    case "Grain":
-                        dict[Setting.SpecializedGrain] = parsed;
-                        break;
-                    case "Logs":
-                        dict[Setting.SpecializedLogs] = parsed;
-                        break;
-                    case "Petrol":
-                        dict[Setting.GenericPetrol] = parsed;
-                        break;
-                    case "Coal":
-                        dict[Setting.GenericCoal] = parsed;
-                        break;
-                    case "Food":
-                        dict[Setting.GenericFood] = parsed;
-                        break;
-                    case "Lumber":
-                        dict[Setting.GenericLumber] = parsed;
-                        break;
+                if (bool.Parse(node.InnerText)) {
+                    switch (node.Name) {
+                        case "Goods":
+                            set.Add(GoodsTransfer.CommercialGoods.Id);
+                            break;
+                        case "Oil":
+                            set.Add(GoodsTransfer.SpecializedOil.Id);
+                            break;
+                        case "Ore":
+                            set.Add(GoodsTransfer.SpecializedOre.Id);
+                            break;
+                        case "Grain":
+                            set.Add(GoodsTransfer.SpecializedGrain.Id);
+                            break;
+                        case "Logs":
+                            set.Add(GoodsTransfer.SpecializedLogs.Id);
+                            break;
+                        case "Petrol":
+                            set.Add(GoodsTransfer.GenericPetrol.Id);
+                            break;
+                        case "Coal":
+                            set.Add(GoodsTransfer.GenericCoal.Id);
+                            break;
+                        case "Food":
+                            set.Add(GoodsTransfer.GenericFood.Id);
+                            break;
+                        case "Lumber":
+                            set.Add(GoodsTransfer.GenericLumber.Id);
+                            break;
+                    }
                 }
             }
 
-            dict[Setting.ShelterGoods] = false;
+            WriteXml(set);
 
-            WriteXml(dict);
-
-            return dict;
+            return set;
         }
     }
 }
