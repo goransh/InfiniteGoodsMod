@@ -89,8 +89,7 @@ namespace InfiniteGoodsMod {
             catch (XmlException) {
                 var defaultSettings = Settings.GenerateDefaultSettings();
                 WriteXml(defaultSettings);
-                Utils.Log(
-                    "Unable to load the settings file for Infinite Goods. The settings for this mod has been reset.");
+                //TODO error message?
                 return defaultSettings;
             }
 

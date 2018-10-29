@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ColossalFramework;
+using UnityEngine;
 using static ItemClass;
 using static TransferManager;
 
 namespace InfiniteGoodsMod {
     public class GoodsTransfer {
-        private static readonly Func<BuildingAI, TransferReason> ProcessingMaterialFunc = ai => {
-            ProcessingFacilityAI pAi = ai as ProcessingFacilityAI;
-            return pAi != null ? pAi.m_inputResource1 : TransferReason.None;
-        };
-
         // Commercial
         public static readonly GoodsTransfer CommercialGoods =
-            new GoodsTransfer(Service.Commercial, SubService.None, TransferReason.Goods);
+            new GoodsTransfer(Service.Commercial, TransferReason.Goods); // any SubService
 
         public static readonly GoodsTransfer CommercialLuxuryProducts =
-            new GoodsTransfer(Service.Commercial, SubService.None, TransferReason.LuxuryProducts);
+            new GoodsTransfer(Service.Commercial, TransferReason.LuxuryProducts); // any SubService
 
         // Specialized industry
         public static readonly GoodsTransfer SpecializedOil =
@@ -51,16 +47,16 @@ namespace InfiniteGoodsMod {
 
         // Industries DLC raw
         public static readonly GoodsTransfer PlayerIndustryRawOil =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOil, ProcessingMaterialFunc);
+            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOil, TransferReason.Oil);
 
         public static readonly GoodsTransfer PlayerIndustryRawOre =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOre, ProcessingMaterialFunc);
+            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOre, TransferReason.Ore);
 
         public static readonly GoodsTransfer PlayerIndustryRawFarming =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryFarming, ProcessingMaterialFunc);
+            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryFarming, TransferReason.Grain);
 
         public static readonly GoodsTransfer PlayerIndustryRawForestry =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryForestry, ProcessingMaterialFunc);
+            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryForestry, TransferReason.Logs);
 
         // Industries DLC processed
         public static readonly GoodsTransfer ProcessedAnimalProducts =
@@ -87,8 +83,8 @@ namespace InfiniteGoodsMod {
         public static readonly GoodsTransfer ProcessedMetals =
             new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Metals);
 
-        public static readonly GoodsTransfer ProcessedGrain =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Grain);
+        public static readonly GoodsTransfer ProcessedCrops =
+            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Grain, "PlayerIndustryCrops");
 
 
         public static readonly IList<GoodsTransfer> GoodsTransfers = new ReadOnlyCollection<GoodsTransfer>(
@@ -99,7 +95,7 @@ namespace InfiniteGoodsMod {
                 ShelterGoods,
                 PlayerIndustryRawOil, PlayerIndustryRawOre, PlayerIndustryRawFarming, PlayerIndustryRawForestry,
                 ProcessedAnimalProducts, ProcessedFlours, ProcessedPaper, ProcessedPlanedTimber,
-                ProcessedPetroleum, ProcessedPlastics, ProcessedGlass, ProcessedMetals, ProcessedGrain
+                ProcessedPetroleum, ProcessedPlastics, ProcessedGlass, ProcessedMetals, ProcessedCrops
             });
 
 
@@ -111,27 +107,26 @@ namespace InfiniteGoodsMod {
 
         public Service Service { get; }
         public SubService SubService { get; } // None == any
+        public bool AnySubService { get; }
         public TransferReason Material { get; }
         public int TransferAmount { get; }
         public string Id { get; }
-        private Func<BuildingAI, TransferReason> MaterialFunc;
 
         private readonly BuildingManager buildingManager;
 
-        internal GoodsTransfer(Service service, SubService subService, TransferReason material,
-            int transferAmount = DefaultTransferAmount) {
+        internal GoodsTransfer(Service service, SubService subService, TransferReason material, string id = null,
+            int transferAmount = DefaultTransferAmount, bool anySubService = false) {
             this.Service = service;
             this.SubService = subService;
             this.Material = material;
             this.TransferAmount = transferAmount;
-            this.Id = GenerateId();
+            this.Id = id ?? GenerateId();
             this.buildingManager = Singleton<BuildingManager>.instance;
+            this.AnySubService = anySubService;
         }
 
-        internal GoodsTransfer(Service service, SubService subService, Func<BuildingAI, TransferReason> materialFunc)
-            : this(service, subService, TransferReason.None) {
-            this.MaterialFunc = materialFunc;
-        }
+        internal GoodsTransfer(Service service, TransferReason material, string id = null, int transferAmount = DefaultTransferAmount) :
+            this(service, SubService.None, material, id, transferAmount, true) { }
 
         public bool Matches(ushort buildingId) {
             Building building = buildingManager.m_buildings.m_buffer[buildingId];
@@ -139,7 +134,7 @@ namespace InfiniteGoodsMod {
             if (info == null)
                 return false;
             return Service.Equals(info.GetService()) &&
-                   (SubService.Equals(SubService.None) || SubService.Equals(info.GetSubService()));
+                   (AnySubService || SubService.Equals(info.GetSubService()));
         }
 
         public void Transfer(ushort buildingId) {
@@ -148,16 +143,13 @@ namespace InfiniteGoodsMod {
             if (ai == null)
                 return;
 
-            TransferReason material = Material.Equals(TransferReason.None) ? MaterialFunc.Invoke(ai) : Material;
-            if (material.Equals(TransferReason.None))
-                return;
-
             int amount = TransferAmount;
             ai.ModifyMaterialBuffer(buildingId, ref buildingManager.m_buildings.m_buffer[buildingId],
-                material, ref amount);
+                Material, ref amount);
 
-            Utils.Log(
-                $"{material} ({TransferAmount - amount}) => \"{building.Info.name}\" {building.Info.GetService()}->{building.Info.GetSubService()} ({ai.GetType()})");
+            if (ModIdentity.DebugMode)
+                Debug.Log(
+                    $"{Material} ({amount}) => \"{building.Info.name}\" {building.Info.GetService()}->{building.Info.GetSubService()} ({ai.GetType()})");
         }
 
         public void TransferIfMatch(ushort buildingId) {
@@ -168,17 +160,13 @@ namespace InfiniteGoodsMod {
         private string GenerateId() {
             switch (Service) {
                 case Service.Commercial:
+                case Service.PlayerIndustry:
                     return Enum.GetName(typeof(Service), Service) + MaterialToString();
                 case Service.Industrial:
                     bool generic = SubService.Equals(SubService.IndustrialGeneric);
                     return (generic ? "Generic" : "Specialized") + MaterialToString();
                 case Service.Disaster:
                     return "ShelterGoods";
-                case Service.PlayerIndustry:
-                    return Enum.GetName(typeof(Service), Service) +
-                           (Material.Equals(TransferReason.None)
-                               ? Enum.GetName(typeof(SubService), SubService)
-                               : MaterialToString());
             }
 
             throw new Exception("No valid ID for the GoodsTransfer.");

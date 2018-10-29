@@ -5,6 +5,7 @@ namespace InfiniteGoodsMod {
 
         public const ulong WorkshopId = 725555912;
         public const string Version = "4.0";
+        public const bool DebugMode = true;
 
         public string Name => "Infinite Goods";
 
