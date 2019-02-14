@@ -29,11 +29,11 @@ namespace InfiniteGoodsMod {
             AddCheckbox(genericIndustrialGroup, GoodsTransfer.GenericLumber, "Lumber");
 
             if (PlatformService.IsDlcInstalled(SteamHelper.kIndustryDLCAppID)) {
-                UIHelperBase playerRawIndustryGroup = helper.AddGroup("Fill Player Industry with");
-                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawOil, "Oil");
-                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawOre, "Ore");
-                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawFarming, "Crops");
-                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PlayerIndustryRawForestry, "Forestry");
+                UIHelperBase playerRawIndustryGroup = helper.AddGroup("Fill Plopped Industry with");
+                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PloppedIndustryRawOil, "Oil");
+                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PloppedIndustryRawOre, "Ore");
+                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PloppedIndustryRawFarming, "Crops");
+                AddCheckbox(playerRawIndustryGroup, GoodsTransfer.PloppedIndustryRawForestry, "Forestry");
 
                 UIHelperBase uniqueFactoriesGroup = helper.AddGroup("Fill Unique Factories with");
                 AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedAnimalProducts, "Animal Products");

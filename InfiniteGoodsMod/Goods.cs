@@ -1,103 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using ColossalFramework;
 using UnityEngine;
 using static ItemClass;
 using static TransferManager;
+using static InfiniteGoodsMod.GoodsTransfer.TransferCategory;
 
 namespace InfiniteGoodsMod {
     public class GoodsTransfer {
+        public enum TransferCategory {
+            Commercial,
+            SpecializedIndustry,
+            GenericIndustry,
+            Shelter,
+            PloppedIndustry,
+            UniqueIndustry
+        }
+
+        public static readonly IList<GoodsTransfer> GoodsTransfers = new List<GoodsTransfer>();
+
         // Commercial
         public static readonly GoodsTransfer CommercialGoods =
-            new GoodsTransfer(Service.Commercial, TransferReason.Goods); // any SubService
+            new GoodsTransfer(Commercial, Service.Commercial, TransferReason.Goods); // any SubService
 
         public static readonly GoodsTransfer CommercialLuxuryProducts =
-            new GoodsTransfer(Service.Commercial, TransferReason.LuxuryProducts); // any SubService
+            new GoodsTransfer(Commercial, Service.Commercial, TransferReason.LuxuryProducts); // any SubService
 
         // Specialized industry
         public static readonly GoodsTransfer SpecializedOil =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialOil, TransferReason.Oil);
+            new GoodsTransfer(SpecializedIndustry, Service.Industrial, SubService.IndustrialOil,
+                TransferReason.Oil);
 
         public static readonly GoodsTransfer SpecializedOre =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialOre, TransferReason.Ore);
+            new GoodsTransfer(SpecializedIndustry, Service.Industrial, SubService.IndustrialOre,
+                TransferReason.Ore);
 
         public static readonly GoodsTransfer SpecializedGrain =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialFarming, TransferReason.Grain);
+            new GoodsTransfer(SpecializedIndustry, Service.Industrial, SubService.IndustrialFarming,
+                TransferReason.Grain);
 
         public static readonly GoodsTransfer SpecializedLogs =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialForestry, TransferReason.Logs);
+            new GoodsTransfer(SpecializedIndustry, Service.Industrial, SubService.IndustrialForestry,
+                TransferReason.Logs);
 
         // Generic industry
         public static readonly GoodsTransfer GenericPetrol =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialGeneric, TransferReason.Petrol);
+            new GoodsTransfer(GenericIndustry, Service.Industrial, SubService.IndustrialGeneric,
+                TransferReason.Petrol);
 
         public static readonly GoodsTransfer GenericCoal =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialGeneric, TransferReason.Coal);
+            new GoodsTransfer(GenericIndustry, Service.Industrial, SubService.IndustrialGeneric,
+                TransferReason.Coal);
 
         public static readonly GoodsTransfer GenericFood =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialGeneric, TransferReason.Food);
+            new GoodsTransfer(GenericIndustry, Service.Industrial, SubService.IndustrialGeneric,
+                TransferReason.Food);
 
         public static readonly GoodsTransfer GenericLumber =
-            new GoodsTransfer(Service.Industrial, SubService.IndustrialGeneric, TransferReason.Lumber);
+            new GoodsTransfer(GenericIndustry, Service.Industrial, SubService.IndustrialGeneric,
+                TransferReason.Lumber);
 
         // Shelters
         public static readonly GoodsTransfer ShelterGoods =
-            new GoodsTransfer(Service.Disaster, SubService.None, TransferReason.Goods);
+            new GoodsTransfer(Shelter, Service.Disaster, SubService.None, TransferReason.Goods);
 
         // Industries DLC raw
-        public static readonly GoodsTransfer PlayerIndustryRawOil =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOil, TransferReason.Oil);
+        public static readonly GoodsTransfer PloppedIndustryRawOil =
+            new GoodsTransfer(PloppedIndustry, Service.PlayerIndustry, SubService.PlayerIndustryOil,
+                TransferReason.Oil);
 
-        public static readonly GoodsTransfer PlayerIndustryRawOre =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryOre, TransferReason.Ore);
+        public static readonly GoodsTransfer PloppedIndustryRawOre =
+            new GoodsTransfer(PloppedIndustry, Service.PlayerIndustry, SubService.PlayerIndustryOre,
+                TransferReason.Ore);
 
-        public static readonly GoodsTransfer PlayerIndustryRawFarming =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryFarming, TransferReason.Grain);
+        public static readonly GoodsTransfer PloppedIndustryRawFarming =
+            new GoodsTransfer(PloppedIndustry, Service.PlayerIndustry, SubService.PlayerIndustryFarming,
+                TransferReason.Grain);
 
-        public static readonly GoodsTransfer PlayerIndustryRawForestry =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.PlayerIndustryForestry, TransferReason.Logs);
+        public static readonly GoodsTransfer PloppedIndustryRawForestry =
+            new GoodsTransfer(PloppedIndustry, Service.PlayerIndustry, SubService.PlayerIndustryForestry,
+                TransferReason.Logs);
 
         // Industries DLC processed
         public static readonly GoodsTransfer ProcessedAnimalProducts =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.AnimalProducts);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.AnimalProducts);
 
         public static readonly GoodsTransfer ProcessedFlours =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Flours);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Flours);
 
         public static readonly GoodsTransfer ProcessedPaper =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Paper);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Paper);
 
         public static readonly GoodsTransfer ProcessedPlanedTimber =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.PlanedTimber);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.PlanedTimber);
 
         public static readonly GoodsTransfer ProcessedPetroleum =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Petroleum);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Petroleum);
 
         public static readonly GoodsTransfer ProcessedPlastics =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Plastics);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Plastics);
 
         public static readonly GoodsTransfer ProcessedGlass =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Glass);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Glass);
 
         public static readonly GoodsTransfer ProcessedMetals =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Metals);
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Metals);
 
         public static readonly GoodsTransfer ProcessedCrops =
-            new GoodsTransfer(Service.PlayerIndustry, SubService.None, TransferReason.Grain, "PlayerIndustryCrops");
+            new GoodsTransfer(UniqueIndustry, Service.PlayerIndustry, SubService.None, TransferReason.Grain);
 
-
-        public static readonly IList<GoodsTransfer> GoodsTransfers = new ReadOnlyCollection<GoodsTransfer>(
-            new List<GoodsTransfer> {
-                CommercialGoods, CommercialLuxuryProducts,
-                SpecializedOil, SpecializedOre, SpecializedGrain, SpecializedLogs,
-                GenericPetrol, GenericCoal, GenericFood, GenericLumber,
-                ShelterGoods,
-                PlayerIndustryRawOil, PlayerIndustryRawOre, PlayerIndustryRawFarming, PlayerIndustryRawForestry,
-                ProcessedAnimalProducts, ProcessedFlours, ProcessedPaper, ProcessedPlanedTimber,
-                ProcessedPetroleum, ProcessedPlastics, ProcessedGlass, ProcessedMetals, ProcessedCrops
-            });
-
+        private static readonly BuildingManager BuildingManager = Singleton<BuildingManager>.instance;
 
         /// <summary>
         /// The default amount of goods to transfer each time. 
@@ -110,26 +122,32 @@ namespace InfiniteGoodsMod {
         public bool AnySubService { get; }
         public TransferReason Material { get; }
         public int TransferAmount { get; }
+        public TransferCategory Category { get; }
         public string Id { get; }
 
-        private readonly BuildingManager buildingManager;
-
-        internal GoodsTransfer(Service service, SubService subService, TransferReason material, string id = null,
+        internal GoodsTransfer(TransferCategory category, Service service, SubService subService,
+            TransferReason material,
             int transferAmount = DefaultTransferAmount, bool anySubService = false) {
+
             this.Service = service;
             this.SubService = subService;
             this.Material = material;
             this.TransferAmount = transferAmount;
-            this.Id = id ?? GenerateId();
-            this.buildingManager = Singleton<BuildingManager>.instance;
+            this.Category = category;
             this.AnySubService = anySubService;
+
+            this.Id = Enum.GetName(typeof(TransferCategory), category) + Enum.GetName(typeof(TransferReason), material);
+
+            GoodsTransfers.Add(this);
+            Debug.Log($"{category} {service} {subService}");
         }
 
-        internal GoodsTransfer(Service service, TransferReason material, string id = null, int transferAmount = DefaultTransferAmount) :
-            this(service, SubService.None, material, id, transferAmount, true) { }
+        internal GoodsTransfer(TransferCategory category, Service service, TransferReason material,
+            int transferAmount = DefaultTransferAmount) :
+            this(category, service, SubService.None, material, transferAmount, true) { }
 
         public bool Matches(ushort buildingId) {
-            Building building = buildingManager.m_buildings.m_buffer[buildingId];
+            Building building = BuildingManager.m_buildings.m_buffer[buildingId];
             var info = building.Info;
             if (info == null)
                 return false;
@@ -138,13 +156,13 @@ namespace InfiniteGoodsMod {
         }
 
         public void Transfer(ushort buildingId) {
-            Building building = buildingManager.m_buildings.m_buffer[buildingId];
+            Building building = BuildingManager.m_buildings.m_buffer[buildingId];
             BuildingAI ai = building.Info?.GetAI() as BuildingAI;
             if (ai == null)
                 return;
 
             int amount = TransferAmount;
-            ai.ModifyMaterialBuffer(buildingId, ref buildingManager.m_buildings.m_buffer[buildingId],
+            ai.ModifyMaterialBuffer(buildingId, ref BuildingManager.m_buildings.m_buffer[buildingId],
                 Material, ref amount);
 
             if (ModIdentity.DebugMode)
@@ -155,25 +173,6 @@ namespace InfiniteGoodsMod {
         public void TransferIfMatch(ushort buildingId) {
             if (Matches(buildingId))
                 Transfer(buildingId);
-        }
-
-        private string GenerateId() {
-            switch (Service) {
-                case Service.Commercial:
-                case Service.PlayerIndustry:
-                    return Enum.GetName(typeof(Service), Service) + MaterialToString();
-                case Service.Industrial:
-                    bool generic = SubService.Equals(SubService.IndustrialGeneric);
-                    return (generic ? "Generic" : "Specialized") + MaterialToString();
-                case Service.Disaster:
-                    return "ShelterGoods";
-            }
-
-            throw new Exception("No valid ID for the GoodsTransfer.");
-        }
-
-        private string MaterialToString() {
-            return Enum.GetName(typeof(TransferReason), Material);
         }
     }
 }
