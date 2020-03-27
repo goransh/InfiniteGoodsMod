@@ -6,10 +6,10 @@ namespace InfiniteGoodsMod {
     public class Settings {
         private static Settings Instance;
 
-        private readonly HashSet<string> ActiveTransfers;
+        private readonly HashSet<string> activeTransfers;
 
         private Settings(HashSet<string> activeTransfers) {
-            this.ActiveTransfers = activeTransfers;
+            this.activeTransfers = activeTransfers;
         }
 
         public static Settings GetInstance() {
@@ -28,18 +28,18 @@ namespace InfiniteGoodsMod {
             if (Instance == null)
                 LoadSettings(); // save default settings
             else
-                XmlUtil.WriteXml(ActiveTransfers);
+                XmlUtil.WriteXml(activeTransfers);
         }
 
         public bool Get(string setting) {
-            return ActiveTransfers.Contains(setting);
+            return activeTransfers.Contains(setting);
         }
 
         public void Set(string setting, bool active) {
             if (active)
-                ActiveTransfers.Add(setting);
+                activeTransfers.Add(setting);
             else
-                ActiveTransfers.Remove(setting);
+                activeTransfers.Remove(setting);
         }
 
         public static HashSet<string> GenerateDefaultSettings() {
@@ -85,8 +85,7 @@ namespace InfiniteGoodsMod {
 
             try {
                 doc.Load(ConfigPath);
-            }
-            catch (XmlException) {
+            } catch (XmlException) {
                 var defaultSettings = Settings.GenerateDefaultSettings();
                 WriteXml(defaultSettings);
                 //TODO error message?

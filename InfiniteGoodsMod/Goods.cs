@@ -112,7 +112,7 @@ namespace InfiniteGoodsMod {
         private static readonly BuildingManager BuildingManager = Singleton<BuildingManager>.instance;
 
         /// <summary>
-        /// The default amount of goods to transfer each time. 
+        /// The default amount of goods to transfer each time.
         /// A relatively arbitrary number.
         /// </summary>
         private const int DefaultTransferAmount = 100000;
@@ -128,7 +128,6 @@ namespace InfiniteGoodsMod {
         internal GoodsTransfer(TransferCategory category, Service service, SubService subService,
             TransferReason material,
             int transferAmount = DefaultTransferAmount, bool anySubService = false) {
-
             this.Service = service;
             this.SubService = subService;
             this.Material = material;
