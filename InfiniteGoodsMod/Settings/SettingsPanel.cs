@@ -47,6 +47,14 @@ namespace InfiniteGoodsMod {
                 AddCheckbox(uniqueFactoriesGroup, GoodsTransfer.ProcessedCrops, "Crops");
             }
 
+            if (PlatformService.IsDlcInstalled(SteamHelper.kUrbanDLCAppID)) {
+                UIHelperBase fishingGroup = helper.AddGroup("Fill Fish to");
+                AddCheckbox(fishingGroup, GoodsTransfer.FishingHarbor, "Fishing Harbors");
+                AddCheckbox(fishingGroup, GoodsTransfer.FishingFarm, "Fishing Farms");
+                AddCheckbox(fishingGroup, GoodsTransfer.FishingMarket, "Fishing Markets");
+                AddCheckbox(fishingGroup, GoodsTransfer.FishingProcessing, "Fishing Processing Facilities");
+            }
+
             if (PlatformService.IsDlcInstalled(SteamHelper.kNaturalDisastersDLCAppID)) {
                 UIHelperBase shelterGroup = helper.AddGroup("Fill Shelters with");
                 AddCheckbox(shelterGroup, GoodsTransfer.ShelterGoods, "Food");
