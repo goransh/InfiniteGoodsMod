@@ -22,12 +22,14 @@ namespace InfiniteGoodsMod {
         /// the building will be filled with goods (if the setting for the goods type is activated).
         /// </summary>
         public override void OnAfterSimulationTick() {
-            for (var buildingId = (ushort) (simulationManager.m_currentTickIndex % 1000);
-                buildingId < buildingManager.m_buildings.m_buffer.Length;
-                buildingId += 1000) {
+            var buildingId = (ushort) (simulationManager.m_currentTickIndex % 1000);
+            var bufferSize = buildingManager.m_buildings.m_buffer.Length;
+
+            for (; buildingId < bufferSize; buildingId += 1000) {
                 foreach (GoodsTransfer transfer in GoodsTransfer.GoodsTransfers) {
-                    if (settings.Get(transfer.Id))
+                    if (settings.Get(transfer.Id)) {
                         transfer.TransferIfMatch(buildingId);
+                    }
                 }
             }
         }
