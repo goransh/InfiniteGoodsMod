@@ -51,7 +51,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Goods.cs"/>
+        <Compile Include="GoodsTransfer.cs"/>
         <Compile Include="GoodsMonitor.cs"/>
         <Compile Include="ModIdentity.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
