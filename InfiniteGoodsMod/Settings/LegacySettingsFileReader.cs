@@ -3,9 +3,8 @@ using System.Xml;
 
 namespace InfiniteGoodsMod {
     public static class LegacySettingsFileReader {
-
         /// <summary>
-        /// Used for updating settings files created before version 3.0 to the new style.
+        ///     Used for updating settings files created before version 3.0 to the new style.
         /// </summary>
         public static HashSet<string> ReadV2SettingsFile(ref XmlNodeList settingNodes) {
             var set = new HashSet<string>();

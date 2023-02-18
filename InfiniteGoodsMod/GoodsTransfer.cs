@@ -7,6 +7,12 @@ using static TransferManager;
 
 namespace InfiniteGoodsMod {
     public class GoodsTransfer {
+        /// <summary>
+        ///     The default amount of goods to transfer each time.
+        ///     A relatively arbitrary number.
+        /// </summary>
+        private const int TransferAmount = 100000;
+
         public static readonly IList<GoodsTransfer> GoodsTransfers = new List<GoodsTransfer>();
 
         // Commercial
@@ -14,14 +20,14 @@ namespace InfiniteGoodsMod {
             Id = "CommercialGoods",
             Service = Service.Commercial,
             Material = TransferReason.Goods,
-            AnySubService = true
+            AnySubService = true,
         };
 
         public static readonly GoodsTransfer CommercialLuxuryProducts = new GoodsTransfer {
             Id = "CommercialLuxuryProducts",
             Service = Service.Commercial,
             Material = TransferReason.LuxuryProducts,
-            AnySubService = true
+            AnySubService = true,
         };
 
         // Specialized industry
@@ -29,28 +35,28 @@ namespace InfiniteGoodsMod {
             Id = "SpecializedIndustryOil",
             Service = Service.Industrial,
             SubService = SubService.IndustrialOil,
-            Material = TransferReason.Oil
+            Material = TransferReason.Oil,
         };
 
         public static readonly GoodsTransfer SpecializedOre = new GoodsTransfer {
             Id = "SpecializedIndustryOre",
             Service = Service.Industrial,
             SubService = SubService.IndustrialOre,
-            Material = TransferReason.Ore
+            Material = TransferReason.Ore,
         };
 
         public static readonly GoodsTransfer SpecializedGrain = new GoodsTransfer {
             Id = "SpecializedIndustryGrain",
             Service = Service.Industrial,
             SubService = SubService.IndustrialFarming,
-            Material = TransferReason.Grain
+            Material = TransferReason.Grain,
         };
 
         public static readonly GoodsTransfer SpecializedLogs = new GoodsTransfer {
             Id = "SpecializedIndustryLogs",
             Service = Service.Industrial,
             SubService = SubService.IndustrialForestry,
-            Material = TransferReason.Logs
+            Material = TransferReason.Logs,
         };
 
         // Generic industry
@@ -58,28 +64,28 @@ namespace InfiniteGoodsMod {
             Id = "GenericIndustryPetrol",
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
-            Material = TransferReason.Petrol
+            Material = TransferReason.Petrol,
         };
 
         public static readonly GoodsTransfer GenericCoal = new GoodsTransfer {
             Id = "GenericIndustryCoal",
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
-            Material = TransferReason.Coal
+            Material = TransferReason.Coal,
         };
 
         public static readonly GoodsTransfer GenericFood = new GoodsTransfer {
             Id = "GenericIndustryFood",
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
-            Material = TransferReason.Food
+            Material = TransferReason.Food,
         };
 
         public static readonly GoodsTransfer GenericLumber = new GoodsTransfer {
             Id = "GenericIndustryLumber",
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
-            Material = TransferReason.Lumber
+            Material = TransferReason.Lumber,
         };
 
         // Shelters
@@ -87,7 +93,7 @@ namespace InfiniteGoodsMod {
             Id = "ShelterGoods",
             Service = Service.Disaster,
             SubService = SubService.None,
-            Material = TransferReason.Goods
+            Material = TransferReason.Goods,
         };
 
         // Industries DLC raw
@@ -95,28 +101,28 @@ namespace InfiniteGoodsMod {
             Id = "PloppedIndustryOil",
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryOil,
-            Material = TransferReason.Oil
+            Material = TransferReason.Oil,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawOre = new GoodsTransfer {
             Id = "PloppedIndustryOre",
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryOre,
-            Material = TransferReason.Ore
+            Material = TransferReason.Ore,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawFarming = new GoodsTransfer {
             Id = "PloppedIndustryGrain",
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryFarming,
-            Material = TransferReason.Grain
+            Material = TransferReason.Grain,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawForestry = new GoodsTransfer {
             Id = "PloppedIndustryLogs",
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryForestry,
-            Material = TransferReason.Logs
+            Material = TransferReason.Logs,
         };
 
         // Industries DLC processed
@@ -124,63 +130,63 @@ namespace InfiniteGoodsMod {
             Id = "UniqueIndustryAnimalProducts",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.AnimalProducts
+            Material = TransferReason.AnimalProducts,
         };
 
         public static readonly GoodsTransfer ProcessedFlours = new GoodsTransfer {
             Id = "UniqueIndustryFlours",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Flours
+            Material = TransferReason.Flours,
         };
 
         public static readonly GoodsTransfer ProcessedPaper = new GoodsTransfer {
             Id = "UniqueIndustryPaper",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Paper
+            Material = TransferReason.Paper,
         };
 
         public static readonly GoodsTransfer ProcessedPlanedTimber = new GoodsTransfer {
             Id = "UniqueIndustryPlanedTimber",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.PlanedTimber
+            Material = TransferReason.PlanedTimber,
         };
 
         public static readonly GoodsTransfer ProcessedPetroleum = new GoodsTransfer {
             Id = "UniqueIndustryPetroleum",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Petroleum
+            Material = TransferReason.Petroleum,
         };
 
         public static readonly GoodsTransfer ProcessedPlastics = new GoodsTransfer {
             Id = "UniqueIndustryPlastics",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Plastics
+            Material = TransferReason.Plastics,
         };
 
         public static readonly GoodsTransfer ProcessedGlass = new GoodsTransfer {
             Id = "UniqueIndustryGlass",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Glass
+            Material = TransferReason.Glass,
         };
 
         public static readonly GoodsTransfer ProcessedMetals = new GoodsTransfer {
             Id = "UniqueIndustryMetals",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Metals
+            Material = TransferReason.Metals,
         };
 
         public static readonly GoodsTransfer ProcessedCrops = new GoodsTransfer {
             Id = "UniqueIndustryGrain",
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
-            Material = TransferReason.Grain
+            Material = TransferReason.Grain,
         };
 
         // Sunset Harbor DLC Fishing Industry
@@ -189,7 +195,7 @@ namespace InfiniteGoodsMod {
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
-            AiType = typeof(FishingHarborAI)
+            AiType = typeof(FishingHarborAI),
         };
 
         public static readonly GoodsTransfer FishingFarm = new GoodsTransfer {
@@ -197,7 +203,7 @@ namespace InfiniteGoodsMod {
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
-            AiType = typeof(FishFarmAI)
+            AiType = typeof(FishFarmAI),
         };
 
         public static readonly GoodsTransfer FishingMarket = new GoodsTransfer {
@@ -205,7 +211,7 @@ namespace InfiniteGoodsMod {
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
-            AiType = typeof(MarketAI)
+            AiType = typeof(MarketAI),
         };
 
         public static readonly GoodsTransfer FishingProcessing = new GoodsTransfer {
@@ -213,39 +219,38 @@ namespace InfiniteGoodsMod {
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
-            AiType = typeof(ProcessingFacilityAI)
+            AiType = typeof(ProcessingFacilityAI),
         };
 
         private static readonly BuildingManager BuildingManager = Singleton<BuildingManager>.instance;
 
         /// <summary>
-        /// The default amount of goods to transfer each time.
-        /// A relatively arbitrary number.
-        /// </summary>
-        private const int TransferAmount = 100000;
-
-        /// <summary>
-        /// The Service to match for this transfer to be executed.
+        ///     The Service to match for this transfer to be executed.
         /// </summary>
         private Service Service { set; get; } = Service.None;
+
         /// <summary>
-        /// The SubService to match for this transfer to be executed.
+        ///     The SubService to match for this transfer to be executed.
         /// </summary>
         private SubService SubService { set; get; } = SubService.None;
+
         /// <summary>
-        /// If true, the matcher won't check if the building's SubService matches before execution.
+        ///     If true, the matcher won't check if the building's SubService matches before execution.
         /// </summary>
         private bool AnySubService { set; get; } = false;
+
         /// <summary>
-        /// (Optional) The type of the building's AI to match for this transfer to be executed. null means any.
+        ///     (Optional) The type of the building's AI to match for this transfer to be executed. null means any.
         /// </summary>
         private Type AiType { set; get; } = null;
+
         /// <summary>
-        /// The TransferReason to execute (the material to transfer).
+        ///     The TransferReason to execute (the material to transfer).
         /// </summary>
         private TransferReason Material { set; get; } = TransferReason.None;
+
         /// <summary>
-        /// Id of this transfer, must be unique. Used in the settings file so any changes will break old saves.
+        ///     Id of this transfer, must be unique. Used in the settings file so any changes will break old saves.
         /// </summary>
         public string Id { private set; get; }
 
@@ -254,26 +259,33 @@ namespace InfiniteGoodsMod {
         }
 
         public bool Matches(ushort buildingId) {
-            Building building = BuildingManager.m_buildings.m_buffer[buildingId];
+            var building = BuildingManager.m_buildings.m_buffer[buildingId];
             var info = building.Info;
-            if (info == null) return false;
+            if (info == null) {
+                return false;
+            }
 
-            if (AiType != null && !AiType.IsInstanceOfType(info.GetAI())) return false;
+            if (AiType != null && !AiType.IsInstanceOfType(info.GetAI())) {
+                return false;
+            }
 
-            return Service.Equals(info.GetService()) &&
-                   (AnySubService || SubService.Equals(info.GetSubService()));
+            return Service.Equals(info.GetService()) && (AnySubService || SubService.Equals(info.GetSubService()));
         }
 
         public void Transfer(ushort buildingId) {
             var building = BuildingManager.m_buildings.m_buffer[buildingId];
 
             var info = building.Info;
-            if (info == null) return;
+            if (info == null) {
+                return;
+            }
 
             var ai = info.GetAI() as BuildingAI;
-            if (ai == null) return;
+            if (ai == null) {
+                return;
+            }
 
-            int amount = TransferAmount;
+            var amount = TransferAmount;
             ai.ModifyMaterialBuffer(
                 buildingId,
                 ref BuildingManager.m_buildings.m_buffer[buildingId],
@@ -283,12 +295,15 @@ namespace InfiniteGoodsMod {
 
             if (ModIdentity.DebugMode) {
                 Debug.Log(
-                    $"{Material} ({amount}) => \"{building.Info.name}\" {building.Info.GetService()}->{building.Info.GetSubService()} ({ai.GetType()})");
+                    $"{Material} ({amount}) => \"{building.Info.name}\" {building.Info.GetService()}->{building.Info.GetSubService()} ({ai.GetType()})"
+                );
             }
         }
 
         public void TransferIfMatch(ushort buildingId) {
-            if (Matches(buildingId)) Transfer(buildingId);
+            if (Matches(buildingId)) {
+                Transfer(buildingId);
+            }
         }
     }
 }

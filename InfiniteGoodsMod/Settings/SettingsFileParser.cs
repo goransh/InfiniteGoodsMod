@@ -9,9 +9,11 @@ namespace InfiniteGoodsMod {
         private const string RootNodeName = "InfiniteGoods";
 
         public static HashSet<string> ReadSettings() {
-            if (!File.Exists(ConfigPath)) return null;
+            if (!File.Exists(ConfigPath)) {
+                return null;
+            }
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
             try {
                 doc.Load(ConfigPath);
@@ -20,7 +22,7 @@ namespace InfiniteGoodsMod {
                 return null;
             }
 
-            XmlNodeList root = doc.GetElementsByTagName("settings");
+            var root = doc.GetElementsByTagName("settings");
             if (root.Count != 0) {
                 // old settings document
                 var nodes = root[0].ChildNodes;
@@ -35,32 +37,36 @@ namespace InfiniteGoodsMod {
                     .Select(childNode => childNode.ChildNodes)
                     .FirstOrDefault();
 
-            if (settingNodes == null || settingNodes.Count == 0) return null;
+            if (settingNodes == null || settingNodes.Count == 0) {
+                return null;
+            }
 
             var set = new HashSet<string>();
 
             foreach (XmlNode node in settingNodes) {
-                if (bool.Parse(node.InnerText)) set.Add(node.Name);
+                if (bool.Parse(node.InnerText)) {
+                    set.Add(node.Name);
+                }
             }
 
             return set;
         }
 
         public static void WriteSettings(HashSet<string> set) {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
 
-            XmlDeclaration xmldecl = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            XmlElement root = doc.DocumentElement;
+            var xmldecl = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            var root = doc.DocumentElement;
             doc.InsertBefore(xmldecl, root);
 
-            XmlElement rootNode = (XmlElement) doc.AppendChild(doc.CreateElement(RootNodeName));
-            XmlNode versionNode = rootNode.AppendChild(doc.CreateElement("Version"));
+            var rootNode = (XmlElement)doc.AppendChild(doc.CreateElement(RootNodeName));
+            var versionNode = rootNode.AppendChild(doc.CreateElement("Version"));
             versionNode.InnerText = ModIdentity.Version;
 
-            XmlNode settingsNode = rootNode.AppendChild(doc.CreateElement("Settings"));
+            var settingsNode = rootNode.AppendChild(doc.CreateElement("Settings"));
 
             foreach (var transfer in GoodsTransfer.GoodsTransfers) {
-                XmlNode setting = settingsNode.AppendChild(doc.CreateElement(transfer.Id));
+                var setting = settingsNode.AppendChild(doc.CreateElement(transfer.Id));
                 setting.InnerText = set.Contains(transfer.Id).ToString();
             }
 
