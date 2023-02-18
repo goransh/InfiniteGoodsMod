@@ -27,6 +27,29 @@ namespace InfiniteGoodsMod.Settings {
             _enabledSettings = enabledSettings;
         }
 
+        public void SetAll(bool state) {
+            if (state) {
+                foreach (var settingId in SettingIdExtensions.Values) {
+                    if (settingId != SettingId.Debug) {
+                        _enabledSettings.Add(settingId);
+                    }
+                }
+            } else {
+                ClearSettings();
+            }
+        }
+
+        private void ClearSettings() {
+            _enabledSettings.RemoveWhere(id => id != SettingId.Debug);
+        }
+
+        public void RestoreDefault() {
+            _enabledSettings.Clear(); // This also disables debug mode
+            foreach (var settingId in GetDefaultSettings()) {
+                _enabledSettings.Add(settingId);
+            }
+        }
+
         public static Settings GetInstance() => Instance ?? LoadSettings();
 
         private static Settings LoadSettings() => Instance = new Settings(ReadSettingsOrDefault());
@@ -36,6 +59,8 @@ namespace InfiniteGoodsMod.Settings {
         }
 
         private static HashSet<SettingId> ReadSettingsOrDefault()
-            => SettingsFileParser.ReadSettings() ?? new HashSet<SettingId> { SettingId.CommercialGoods };
+            => SettingsFileParser.ReadSettings() ?? GetDefaultSettings();
+
+        private static HashSet<SettingId> GetDefaultSettings() => new HashSet<SettingId> { SettingId.CommercialGoods };
     }
 }
