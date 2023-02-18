@@ -41,6 +41,19 @@ namespace InfiniteGoodsMod.Settings {
 
         PowerPlantCoal,
         PowerPlantOil,
+        
+        PedestrianServicePointGoods,
+        PedestrianServicePointLuxuryProducts,
+
+        CargoServicePointSpecializedIndustryOil,
+        CargoServicePointSpecializedIndustryOre,
+        CargoServicePointSpecializedIndustryGrain,
+        CargoServicePointSpecializedIndustryLogs,
+        
+        CargoServicePointGenericIndustryPetrol,
+        CargoServicePointGenericIndustryCoal,
+        CargoServicePointGenericIndustryFood,
+        CargoServicePointGenericIndustryLumber,
 
         // Non goods transfer settings
         Debug,

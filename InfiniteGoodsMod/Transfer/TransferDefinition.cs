@@ -8,6 +8,7 @@ using static TransferManager;
 namespace InfiniteGoodsMod.Transfer {
     public interface ITransferDefinition {
         SettingId Id { get; }
+        TransferReason Material { get; }
         void TransferIfMatch(ushort buildingId, bool debug);
     }
 
@@ -16,7 +17,7 @@ namespace InfiniteGoodsMod.Transfer {
         ///     The default amount of goods to transfer each time.
         ///     A relatively arbitrary number.
         /// </summary>
-        private const int TransferAmount = 100000;
+        private const int TransferAmount = 1_000_000;
 
         /// <summary>
         ///     The Service to match for this transfer to be executed.
@@ -93,9 +94,8 @@ namespace InfiniteGoodsMod.Transfer {
                     out var max
                 );
                 Debug.Log(
-                    $"Transferred {amount} ({currentAmount}/{max}) {Material} => \"{info.name}\" ({buildingId}) {info.GetService()}/{info.GetSubService()} ({ai.GetType().Name})"
+                    $"Transferred {amount:N0} ({currentAmount}/{max}) {Material} => \"{info.name}\" ({buildingId}) {info.GetService()}/{info.GetSubService()} ({ai.GetType().Name})"
                 );
-                
             }
         }
 

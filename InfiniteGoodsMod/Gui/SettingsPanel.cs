@@ -1,7 +1,6 @@
 ﻿using ColossalFramework.PlatformServices;
 using ICities;
 using InfiniteGoodsMod.Settings;
-using InfiniteGoodsMod.Transfer;
 
 namespace InfiniteGoodsMod.Gui {
     internal class SettingsPanel {
@@ -13,65 +12,88 @@ namespace InfiniteGoodsMod.Gui {
 
         public void CreatePanel(UIHelperBase helper) {
             var commercialGroup = helper.AddGroup("Stock Commercial Buildings with");
-            AddCheckbox(commercialGroup, TransferDefinitions.CommercialGoods, "Goods");
+            AddCheckbox(commercialGroup, SettingId.CommercialGoods, "Goods");
             if (PlatformService.IsDlcInstalled(SteamHelper.kIndustryDLCAppID)) {
-                AddCheckbox(commercialGroup, TransferDefinitions.CommercialLuxuryProducts, "Luxury Products");
+                AddCheckbox(commercialGroup, SettingId.CommercialLuxuryProducts, "Luxury Products");
             }
 
             var powerPlantGroup = helper.AddGroup("Stock Power Plants with");
-            AddCheckbox(powerPlantGroup, TransferDefinitions.CoalPowerPlant, "Coal");
-            AddCheckbox(powerPlantGroup, TransferDefinitions.OilPowerPlant, "Oil");
+            AddCheckbox(powerPlantGroup, SettingId.PowerPlantCoal, "Coal");
+            AddCheckbox(powerPlantGroup, SettingId.PowerPlantOil, "Oil");
 
             var specializedIndustrialGroup = helper.AddGroup("Stock Specialized Industry with raw");
-            AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedOil, "Oil");
-            AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedOre, "Ore");
-            AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedGrain, "Grain");
-            AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedLogs, "Logs");
+            AddCheckbox(specializedIndustrialGroup, SettingId.SpecializedIndustryOil, "Oil");
+            AddCheckbox(specializedIndustrialGroup, SettingId.SpecializedIndustryOre, "Ore");
+            AddCheckbox(specializedIndustrialGroup, SettingId.SpecializedIndustryGrain, "Grain");
+            AddCheckbox(specializedIndustrialGroup, SettingId.SpecializedIndustryLogs, "Logs");
 
             var genericIndustrialGroup = helper.AddGroup("Stock Generic Industry with processed");
-            AddCheckbox(genericIndustrialGroup, TransferDefinitions.GenericPetrol, "Petrol");
-            AddCheckbox(genericIndustrialGroup, TransferDefinitions.GenericCoal, "Coal");
-            AddCheckbox(genericIndustrialGroup, TransferDefinitions.GenericFood, "Food");
-            AddCheckbox(genericIndustrialGroup, TransferDefinitions.GenericLumber, "Lumber");
+            AddCheckbox(genericIndustrialGroup, SettingId.GenericIndustryPetrol, "Petrol");
+            AddCheckbox(genericIndustrialGroup, SettingId.GenericIndustryCoal, "Coal");
+            AddCheckbox(genericIndustrialGroup, SettingId.GenericIndustryFood, "Food");
+            AddCheckbox(genericIndustrialGroup, SettingId.GenericIndustryLumber, "Lumber");
 
             if (PlatformService.IsDlcInstalled(SteamHelper.kIndustryDLCAppID)) {
                 var playerRawIndustryGroup = helper.AddGroup("Stock Plopped Industry with");
-                AddCheckbox(playerRawIndustryGroup, TransferDefinitions.PloppedIndustryRawOil, "Oil");
-                AddCheckbox(playerRawIndustryGroup, TransferDefinitions.PloppedIndustryRawOre, "Ore");
-                AddCheckbox(playerRawIndustryGroup, TransferDefinitions.PloppedIndustryRawFarming, "Crops");
-                AddCheckbox(playerRawIndustryGroup, TransferDefinitions.PloppedIndustryRawForestry, "Forestry");
+                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryOil, "Oil");
+                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryOre, "Ore");
+                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryGrain, "Crops");
+                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryLogs, "Forestry");
 
                 var uniqueFactoriesGroup = helper.AddGroup("Stock Unique Factories with");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedAnimalProducts, "Animal Products");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedFlours, "Flours");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedPaper, "Paper");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedPlanedTimber, "Planed Timber");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedPetroleum, "Petroleum");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedPlastics, "Plastics");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedGlass, "Glass");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedMetals, "Metals");
-                AddCheckbox(uniqueFactoriesGroup, TransferDefinitions.ProcessedCrops, "Crops");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryAnimalProducts, "Animal Products");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryFlours, "Flours");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryPaper, "Paper");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryPlanedTimber, "Planed Timber");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryPetroleum, "Petroleum");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryPlastics, "Plastics");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryGlass, "Glass");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryMetals, "Metals");
+                AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryGrain, "Crops");
             }
 
             if (PlatformService.IsDlcInstalled(SteamHelper.kUrbanDLCAppID)) {
                 var fishingGroup = helper.AddGroup("Stock with Fish");
-                AddCheckbox(fishingGroup, TransferDefinitions.FishingHarbor, "Fishing Harbors");
-                AddCheckbox(fishingGroup, TransferDefinitions.FishingFarm, "Fish/Algae/Seaweed Farms");
-                AddCheckbox(fishingGroup, TransferDefinitions.FishingMarket, "Fish Markets");
-                AddCheckbox(fishingGroup, TransferDefinitions.FishingProcessing, "Fish Processing Facilities");
+                AddCheckbox(fishingGroup, SettingId.FishingHarbor, "Fishing Harbors");
+                AddCheckbox(fishingGroup, SettingId.FishingFarm, "Fish/Algae/Seaweed Farms");
+                AddCheckbox(fishingGroup, SettingId.FishingMarket, "Fish Markets");
+                AddCheckbox(fishingGroup, SettingId.FishingProcessing, "Fish Processing Facilities");
             }
 
             if (PlatformService.IsDlcInstalled(SteamHelper.kNaturalDisastersDLCAppID)) {
                 var shelterGroup = helper.AddGroup("Stock Shelters with");
-                AddCheckbox(shelterGroup, TransferDefinitions.ShelterGoods, "Food");
+                AddCheckbox(shelterGroup, SettingId.ShelterGoods, "Food");
             }
+
+            if (PlatformService.IsDlcInstalled(SteamHelper.kPlazasAndPromenadesDLCAppID)) {
+                var pedestrianAreaServicePointGroup = helper.AddGroup("Stock Pedestrian Area Service Points with");
+                AddCheckbox(
+                    pedestrianAreaServicePointGroup,
+                    SettingId.PedestrianServicePointGoods,
+                    "Goods"
+                );
+                AddCheckbox(
+                    pedestrianAreaServicePointGroup,
+                    SettingId.PedestrianServicePointLuxuryProducts,
+                    "Luxury Products"
+                );
+
+                var cargoServicePointGroup = helper.AddGroup("Stock Cargo Service Points with");
+
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointSpecializedIndustryOil, "Oil (raw)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointSpecializedIndustryOre, "Ore (raw)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointSpecializedIndustryGrain, "Grain (raw)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointSpecializedIndustryLogs, "Logs (raw)");
+
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointGenericIndustryPetrol, "Petrol (processed)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointGenericIndustryCoal, "Coal (processed)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointGenericIndustryFood, "Food (processed)");
+                AddCheckbox(cargoServicePointGroup, SettingId.CargoServicePointGenericIndustryLumber, "Lumber (processed)");
+            }
+
 
             var advancedGroup = helper.AddGroup("Advanced");
             AddCheckbox(advancedGroup, SettingId.Debug, "Debug mode");
-        }
-
-        private void AddCheckbox(UIHelperBase group, ITransferDefinition transfer, string settingTitle) {
-            AddCheckbox(group, transfer.Id, settingTitle);
         }
 
         private void AddCheckbox(UIHelperBase group, SettingId settingId, string settingTitle) {

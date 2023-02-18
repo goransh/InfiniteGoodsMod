@@ -1,297 +1,271 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using InfiniteGoodsMod.Settings;
 using static ItemClass;
 
 namespace InfiniteGoodsMod.Transfer {
     public static class TransferDefinitions {
-        public static readonly IList<ITransferDefinition> All = new List<ITransferDefinition>();
+        public static readonly ReadOnlyCollection<ITransferDefinition> All = Initialize();
 
-        // Commercial
-        public static readonly TransferDefinition<BuildingAI> CommercialGoods = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.CommercialGoods,
-                Service = Service.Commercial,
-                Material = TransferManager.TransferReason.Goods,
-                AnySubService = true,
-            }
-        );
+        private static ReadOnlyCollection<ITransferDefinition> Initialize() {
+            var list = new List<ITransferDefinition> {
+                // Cargo service point
+            };
+            list.AddRange(InitializeCommercial());
+            var specializedZonedIndustrial = InitializeSpecializedZonedIndustrial();
+            list.AddRange(specializedZonedIndustrial);
+            var genericZonedIndustrial = InitializeGenericZonedIndustrial();
+            list.AddRange(genericZonedIndustrial);
+            list.AddRange(InitializeShelters());
+            list.AddRange(InitializeIndustriesDlcRaw());
+            list.AddRange(InitializeIndustriesDlcProcessed());
+            list.AddRange(InitializeSunsetHarborDlcFishingIndustry());
+            list.AddRange(InitializePowerPlants());
+            list.AddRange(InitializePedestrianAreaServicePoint());
+            list.AddRange(InitializeCargoServicePoint(specializedZonedIndustrial));
+            list.AddRange(InitializeCargoServicePoint(genericZonedIndustrial));
+            return list.AsReadOnly();
+        }
 
-        public static readonly TransferDefinition<BuildingAI> CommercialLuxuryProducts = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.CommercialLuxuryProducts,
-                Service = Service.Commercial,
-                Material = TransferManager.TransferReason.LuxuryProducts,
-                AnySubService = true,
-            }
-        );
+        private static ITransferDefinition[] InitializeCommercial() =>
+            new ITransferDefinition[] {
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.CommercialGoods,
+                    Service = Service.Commercial,
+                    Material = TransferManager.TransferReason.Goods,
+                    AnySubService = true,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.CommercialLuxuryProducts,
+                    Service = Service.Commercial,
+                    Material = TransferManager.TransferReason.LuxuryProducts,
+                    AnySubService = true,
+                },
+            };
 
-        // Specialized industry
-        public static readonly TransferDefinition<BuildingAI> SpecializedOil = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.SpecializedIndustryOil,
-                Service = Service.Industrial,
-                SubService = SubService.IndustrialOil,
-                Material = TransferManager.TransferReason.Oil,
-            }
-        );
+        private static ITransferDefinition[] InitializeSpecializedZonedIndustrial() =>
+            new ITransferDefinition[] {
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.SpecializedIndustryOil,
+                    Service = Service.Industrial,
+                    SubService = SubService.IndustrialOil,
+                    Material = TransferManager.TransferReason.Oil,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.SpecializedIndustryOre,
+                    Service = Service.Industrial,
+                    SubService = SubService.IndustrialOre,
+                    Material = TransferManager.TransferReason.Ore,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.SpecializedIndustryGrain,
+                    Service = Service.Industrial,
+                    SubService = SubService.IndustrialFarming,
+                    Material = TransferManager.TransferReason.Grain,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.SpecializedIndustryLogs,
+                    Service = Service.Industrial,
+                    SubService = SubService.IndustrialForestry,
+                    Material = TransferManager.TransferReason.Logs,
+                },
+            };
 
-        public static readonly TransferDefinition<BuildingAI> SpecializedOre = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.SpecializedIndustryOre,
-                Service = Service.Industrial,
-                SubService = SubService.IndustrialOre,
-                Material = TransferManager.TransferReason.Ore,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> SpecializedGrain = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.SpecializedIndustryGrain,
-                Service = Service.Industrial,
-                SubService = SubService.IndustrialFarming,
-                Material = TransferManager.TransferReason.Grain,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> SpecializedLogs = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.SpecializedIndustryLogs,
-                Service = Service.Industrial,
-                SubService = SubService.IndustrialForestry,
-                Material = TransferManager.TransferReason.Logs,
-            }
-        );
-
-        // Generic industry
-        public static readonly TransferDefinition<BuildingAI> GenericPetrol = CreateAndAdd(
+        private static ITransferDefinition[] InitializeGenericZonedIndustrial() => new ITransferDefinition[] {
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.GenericIndustryPetrol,
                 Service = Service.Industrial,
                 SubService = SubService.IndustrialGeneric,
                 Material = TransferManager.TransferReason.Petrol,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> GenericCoal = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.GenericIndustryCoal,
                 Service = Service.Industrial,
                 SubService = SubService.IndustrialGeneric,
                 Material = TransferManager.TransferReason.Coal,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> GenericFood = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.GenericIndustryFood,
                 Service = Service.Industrial,
                 SubService = SubService.IndustrialGeneric,
                 Material = TransferManager.TransferReason.Food,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> GenericLumber = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.GenericIndustryLumber,
                 Service = Service.Industrial,
                 SubService = SubService.IndustrialGeneric,
                 Material = TransferManager.TransferReason.Lumber,
-            }
-        );
+            },
+        };
 
-        // Shelters
-        public static readonly TransferDefinition<BuildingAI> ShelterGoods = CreateAndAdd(
+        private static ITransferDefinition[] InitializeShelters() => new[] {
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.ShelterGoods,
                 Service = Service.Disaster,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Goods,
-            }
-        );
+            },
+        };
 
-        // Industries DLC raw
-        public static readonly TransferDefinition<BuildingAI> PloppedIndustryRawOil = CreateAndAdd(
+        private static ITransferDefinition[] InitializeIndustriesDlcRaw() => new ITransferDefinition[] {
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.PloppedIndustryOil,
                 Service = Service.PlayerIndustry,
                 SubService = SubService.PlayerIndustryOil,
                 Material = TransferManager.TransferReason.Oil,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> PloppedIndustryRawOre = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.PloppedIndustryOre,
                 Service = Service.PlayerIndustry,
                 SubService = SubService.PlayerIndustryOre,
                 Material = TransferManager.TransferReason.Ore,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> PloppedIndustryRawFarming = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.PloppedIndustryGrain,
                 Service = Service.PlayerIndustry,
                 SubService = SubService.PlayerIndustryFarming,
                 Material = TransferManager.TransferReason.Grain,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> PloppedIndustryRawForestry = CreateAndAdd(
+            },
             new TransferDefinition<BuildingAI> {
                 Id = SettingId.PloppedIndustryLogs,
                 Service = Service.PlayerIndustry,
                 SubService = SubService.PlayerIndustryForestry,
                 Material = TransferManager.TransferReason.Logs,
-            }
-        );
+            },
+        };
 
-        // Industries DLC processed
-        public static readonly TransferDefinition<BuildingAI> ProcessedAnimalProducts = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryAnimalProducts,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.AnimalProducts,
-            }
-        );
+        private static ITransferDefinition[] InitializeIndustriesDlcProcessed() => new ITransferDefinition[] {
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryAnimalProducts,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.AnimalProducts,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryFlours,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Flours,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryPaper,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Paper,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryPlanedTimber,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.PlanedTimber,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryPetroleum,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Petroleum,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryPlastics,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Plastics,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryGlass,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Glass,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryMetals,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Metals,
+                },
+                new TransferDefinition<BuildingAI> {
+                    Id = SettingId.UniqueIndustryGrain,
+                    Service = Service.PlayerIndustry,
+                    SubService = SubService.None,
+                    Material = TransferManager.TransferReason.Grain,
+                },
+        };
 
-        public static readonly TransferDefinition<BuildingAI> ProcessedFlours = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryFlours,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Flours,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedPaper = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryPaper,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Paper,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedPlanedTimber = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryPlanedTimber,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.PlanedTimber,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedPetroleum = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryPetroleum,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Petroleum,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedPlastics = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryPlastics,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Plastics,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedGlass = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryGlass,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Glass,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedMetals = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryMetals,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Metals,
-            }
-        );
-
-        public static readonly TransferDefinition<BuildingAI> ProcessedCrops = CreateAndAdd(
-            new TransferDefinition<BuildingAI> {
-                Id = SettingId.UniqueIndustryGrain,
-                Service = Service.PlayerIndustry,
-                SubService = SubService.None,
-                Material = TransferManager.TransferReason.Grain,
-            }
-        );
-
-        // Sunset Harbor DLC Fishing Industry
-        public static readonly TransferDefinition<FishingHarborAI> FishingHarbor = CreateAndAdd(
+        private static ITransferDefinition[] InitializeSunsetHarborDlcFishingIndustry() => new ITransferDefinition[] {
             new TransferDefinition<FishingHarborAI> {
                 Id = SettingId.FishingHarbor,
                 Service = Service.Fishing,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Fish,
-            }
-        );
-
-        public static readonly TransferDefinition<FishFarmAI> FishingFarm = CreateAndAdd(
+            },
             new TransferDefinition<FishFarmAI> {
                 Id = SettingId.FishingFarm,
                 Service = Service.Fishing,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Fish,
-            }
-        );
-
-        public static readonly TransferDefinition<MarketAI> FishingMarket = CreateAndAdd(
+            },
             new TransferDefinition<MarketAI> {
                 Id = SettingId.FishingMarket,
                 Service = Service.Fishing,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Fish,
-            }
-        );
+            },
+            new TransferDefinition<ProcessingFacilityAI> {
+                Id = SettingId.FishingProcessing,
+                Service = Service.Fishing,
+                SubService = SubService.None,
+                Material = TransferManager.TransferReason.Fish,
+            },
+        };
 
-        public static readonly TransferDefinition<ProcessingFacilityAI> FishingProcessing =
-            CreateAndAdd(
-                new TransferDefinition<ProcessingFacilityAI> {
-                    Id = SettingId.FishingProcessing,
-                    Service = Service.Fishing,
-                    SubService = SubService.None,
-                    Material = TransferManager.TransferReason.Fish,
-                }
-            );
-
-        public static readonly TransferDefinition<PowerPlantAI> CoalPowerPlant = CreateAndAdd(
+        private static ITransferDefinition[] InitializePowerPlants() => new ITransferDefinition[] {
             new TransferDefinition<PowerPlantAI> {
                 Id = SettingId.PowerPlantCoal,
                 Service = Service.Electricity,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Coal,
                 TransferCondition = ai => ai.m_resourceType == TransferManager.TransferReason.Coal,
-            }
-        );
-
-
-        public static readonly TransferDefinition<PowerPlantAI> OilPowerPlant = CreateAndAdd(
+            },
             new TransferDefinition<PowerPlantAI> {
                 Id = SettingId.PowerPlantOil,
                 Service = Service.Electricity,
                 SubService = SubService.None,
                 Material = TransferManager.TransferReason.Petrol,
                 TransferCondition = ai => ai.m_resourceType == TransferManager.TransferReason.Petrol,
-            }
-        );
+            },
+        };
 
-        private static TransferDefinition<TBuildingAI> CreateAndAdd<TBuildingAI>(
-            TransferDefinition<TBuildingAI> definition
-        ) where TBuildingAI : BuildingAI {
-            All.Add(definition);
-            return definition;
+        private static ITransferDefinition[] InitializePedestrianAreaServicePoint() => new[] {
+            new TransferDefinition<ServicePointAI> {
+                Id = SettingId.PedestrianServicePointGoods,
+                Service = Service.ServicePoint,
+                Material = TransferManager.TransferReason.Goods,
+                TransferCondition = ai => (int)ai.m_deliveryCategories == -1,
+            },
+            new TransferDefinition<ServicePointAI> {
+                Id = SettingId.PedestrianServicePointLuxuryProducts,
+                Service = Service.ServicePoint,
+                Material = TransferManager.TransferReason.LuxuryProducts,
+                TransferCondition = ai => (int)ai.m_deliveryCategories == -1,
+            },
+        };
+
+        private static ITransferDefinition[] InitializeCargoServicePoint(ITransferDefinition[] source) {
+            var settingIdOffset = (int)SettingId.CargoServicePointSpecializedIndustryOil
+                                  - (int)SettingId.SpecializedIndustryOil;
+            return source.Select(
+                def => new TransferDefinition<ServicePointAI> {
+                    Id = def.Id + settingIdOffset,
+                    Service = Service.ServicePoint,
+                    Material = def.Material,
+                    TransferCondition = BuildingAcceptsCargo,
+                } as ITransferDefinition
+            ).ToArray();
         }
+        
+        private static bool BuildingAcceptsCargo(ServicePointAI ai) =>
+            (ai.m_deliveryCategories & DistrictPark.DeliveryCategories.Cargo)
+            != DistrictPark.DeliveryCategories.None;
     }
 }

@@ -48,8 +48,16 @@ namespace InfiniteGoodsMod.Settings {
             var set = new HashSet<SettingId>();
 
             foreach (XmlNode node in settingNodes) {
-                if (bool.Parse(node.InnerText)) {
-                    var settingId = ParseSettingId(node.Name);
+                if (!bool.TryParse(node.InnerText, out var settingEnabled)) {
+                    Debug.LogError($"Failed to parse {node.InnerText} from {node.Name} to a boolean value.");
+                    return null;
+                }
+
+                if (!settingEnabled) {
+                    continue;
+                }
+
+                if (TryParseSettingId(node.Name, out var settingId)) {
                     set.Add(settingId);
                 }
             }
@@ -57,13 +65,14 @@ namespace InfiniteGoodsMod.Settings {
             return set;
         }
 
-        private static SettingId ParseSettingId(string name) {
+        private static bool TryParseSettingId(string name, out SettingId settingId) {
             try {
-                return (SettingId)Enum.Parse(typeof(SettingId), name, ignoreCase: true);
+                settingId = (SettingId)Enum.Parse(typeof(SettingId), name, ignoreCase: true);
+                return true;
             } catch (Exception exception) {
                 Debug.LogError($"Failed to parse setting id {name}: {exception.Message}");
-                Debug.LogException(exception);
-                throw;
+                settingId = default;
+                return false;
             }
         }
 
