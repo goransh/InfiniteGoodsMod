@@ -1,13 +1,53 @@
 ﻿using System.Collections.Generic;
 
-namespace InfiniteGoodsMod {
+namespace InfiniteGoodsMod.Settings {
     public class Settings {
         private static Settings Instance;
 
-        private readonly HashSet<string> activeTransfers;
+        private readonly HashSet<SettingId> _enabledSettings;
 
-        private Settings(HashSet<string> activeTransfers) {
-            this.activeTransfers = activeTransfers;
+        /// <summary>
+        ///     Get or set enabled/disabled state of a setting.
+        /// </summary>
+        /// <param name="settingId">
+        ///     The setting ID (property name).
+        /// </param>
+        public bool this[SettingId settingId] {
+            get => _enabledSettings.Contains(settingId);
+            set {
+                if (value) {
+                    _enabledSettings.Add(settingId);
+                } else {
+                    _enabledSettings.Remove(settingId);
+                }
+            }
+        }
+
+        private Settings(HashSet<SettingId> enabledSettings) {
+            _enabledSettings = enabledSettings;
+        }
+
+        public void SetAll(bool state) {
+            if (state) {
+                foreach (var settingId in SettingIdExtensions.Values) {
+                    if (settingId != SettingId.Debug) {
+                        _enabledSettings.Add(settingId);
+                    }
+                }
+            } else {
+                ClearSettings();
+            }
+        }
+
+        private void ClearSettings() {
+            _enabledSettings.RemoveWhere(id => id != SettingId.Debug);
+        }
+
+        public void RestoreDefault() {
+            _enabledSettings.Clear(); // This also disables debug mode
+            foreach (var settingId in GetDefaultSettings()) {
+                _enabledSettings.Add(settingId);
+            }
         }
 
         public static Settings GetInstance() => Instance ?? LoadSettings();
@@ -15,19 +55,12 @@ namespace InfiniteGoodsMod {
         private static Settings LoadSettings() => Instance = new Settings(ReadSettingsOrDefault());
 
         public void SaveSettings() {
-            var settings = activeTransfers;
-            if (Instance == null) settings = ReadSettingsOrDefault();
-            SettingsFileParser.WriteSettings(settings);
+            SettingsFileParser.WriteSettings(_enabledSettings);
         }
 
-        public bool Get(string setting) => activeTransfers.Contains(setting);
+        private static HashSet<SettingId> ReadSettingsOrDefault()
+            => SettingsFileParser.ReadSettings() ?? GetDefaultSettings();
 
-        public void Set(string setting, bool active) {
-            if (active) activeTransfers.Add(setting);
-            else activeTransfers.Remove(setting);
-        }
-
-        private static HashSet<string> ReadSettingsOrDefault()
-            => SettingsFileParser.ReadSettings() ?? new HashSet<string> {GoodsTransfer.CommercialGoods.Id};
+        private static HashSet<SettingId> GetDefaultSettings() => new HashSet<SettingId> { SettingId.CommercialGoods };
     }
 }

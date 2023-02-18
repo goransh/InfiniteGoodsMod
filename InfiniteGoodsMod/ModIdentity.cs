@@ -1,21 +1,18 @@
-﻿using ColossalFramework.UI;
-using ICities;
-using UnityEngine;
+﻿using ICities;
+using InfiniteGoodsMod.Gui;
 
 namespace InfiniteGoodsMod {
     public class ModIdentity : IUserMod {
         public const ulong WorkshopId = 725555912;
-        public const string Version = "5.0";
-        public const bool DebugMode = false;
+        public const string Version = "6.0";
 
         public string Name => "Infinite Goods";
 
         public string Description => "Remove the need for industry (v" + Version + ")";
 
-
         public void OnSettingsUI(UIHelperBase helper) {
-            SettingsPanel sp = new SettingsPanel();
-            sp.CreatePanel(helper);
+            var settingsPanel = new SettingsPanel();
+            settingsPanel.CreatePanel(helper);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,7 +11,7 @@
         <AssemblyName>InfiniteGoodsMod</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <TargetFrameworkProfile/>
+        <TargetFrameworkProfile />
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -32,41 +32,43 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Assembly-CSharp">
-            <HintPath>E:\Program Files\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
+            <HintPath>E:\Program Files\Steam Client\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
         <Reference Include="ColossalManaged">
-            <HintPath>E:\Program Files\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
+            <HintPath>E:\Program Files\Steam Client\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
         </Reference>
         <Reference Include="ICities">
-            <HintPath>E:\Program Files\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
+            <HintPath>E:\Program Files\Steam Client\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Xml.Linq"/>
-        <Reference Include="System.Data.DataSetExtensions"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
         <Reference Include="UnityEngine">
-            <HintPath>E:\Program Files\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
+            <HintPath>E:\Program Files\Steam Client\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="GoodsTransfer.cs"/>
-        <Compile Include="GoodsMonitor.cs"/>
-        <Compile Include="ModIdentity.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="LoadingExtension.cs"/>
-        <Compile Include="Settings\LegacySettingsFileReader.cs"/>
-        <Compile Include="Settings\Settings.cs"/>
-        <Compile Include="Settings\SettingsFileParser.cs"/>
-        <Compile Include="Settings\SettingsPanel.cs"/>
+        <Compile Include="Gui\SettingsPanel.cs" />
+        <Compile Include="ModIdentity.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="LoadingExtension.cs" />
+        <Compile Include="Settings\LegacySettingsFileReader.cs" />
+        <Compile Include="Settings\SettingId.cs" />
+        <Compile Include="Settings\Settings.cs" />
+        <Compile Include="Settings\SettingsFileParser.cs" />
+        <Compile Include="Transfer\TransferDefinition.cs" />
+        <Compile Include="Transfer\TransferDefinitions.cs" />
+        <Compile Include="Transfer\TransferMonitor.cs" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>
-            mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-            del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\$(TargetFileName)"
-            xcopy /y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+            mkdir "%LOCALAPPDATA%\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+            del "%LOCALAPPDATA%\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\$(TargetFileName)"
+            xcopy /y "$(TargetPath)" "%LOCALAPPDATA%\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
         </PostBuildEvent>
     </PropertyGroup>
 </Project>
