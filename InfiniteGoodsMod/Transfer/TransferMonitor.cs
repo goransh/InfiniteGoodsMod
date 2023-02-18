@@ -21,6 +21,10 @@ namespace InfiniteGoodsMod.Transfer {
         ///     the building will be filled with goods (if the setting for the goods type is activated).
         /// </summary>
         public override void OnAfterSimulationTick() {
+            if (simulationManager.SimulationPaused) {
+                return;
+            }
+
             var buildingId = (ushort)(simulationManager.m_currentTickIndex % 1000);
             var bufferSize = buildingManager.m_buildings.m_buffer.Length;
 

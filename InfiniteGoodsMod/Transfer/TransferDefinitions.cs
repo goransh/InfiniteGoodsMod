@@ -266,6 +266,27 @@ namespace InfiniteGoodsMod.Transfer {
                 }
             );
 
+        public static readonly TransferDefinition<PowerPlantAI> CoalPowerPlant = CreateAndAdd(
+            new TransferDefinition<PowerPlantAI> {
+                Id = SettingId.PowerPlantCoal,
+                Service = Service.Electricity,
+                SubService = SubService.None,
+                Material = TransferManager.TransferReason.Coal,
+                TransferCondition = ai => ai.m_resourceType == TransferManager.TransferReason.Coal,
+            }
+        );
+
+
+        public static readonly TransferDefinition<PowerPlantAI> OilPowerPlant = CreateAndAdd(
+            new TransferDefinition<PowerPlantAI> {
+                Id = SettingId.PowerPlantOil,
+                Service = Service.Electricity,
+                SubService = SubService.None,
+                Material = TransferManager.TransferReason.Petrol,
+                TransferCondition = ai => ai.m_resourceType == TransferManager.TransferReason.Petrol,
+            }
+        );
+
         private static TransferDefinition<TBuildingAI> CreateAndAdd<TBuildingAI>(
             TransferDefinition<TBuildingAI> definition
         ) where TBuildingAI : BuildingAI {

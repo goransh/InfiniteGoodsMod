@@ -1,4 +1,5 @@
-﻿using ColossalFramework;
+﻿using System;
+using ColossalFramework;
 using InfiniteGoodsMod.Settings;
 using UnityEngine;
 using static ItemClass;
@@ -42,6 +43,8 @@ namespace InfiniteGoodsMod.Transfer {
         /// </summary>
         public SettingId Id { get; internal set; }
 
+        public Func<TBuildingAI, bool> TransferCondition { get; internal set; } = _ => true;
+
         internal TransferDefinition() { }
 
         /// <summary>
@@ -82,9 +85,17 @@ namespace InfiniteGoodsMod.Transfer {
             );
 
             if (debug) {
-                Debug.Log(
-                    $"Transferred {amount} {Material} => \"{info.name}\" {info.GetService()}->{info.GetSubService()} ({typeof(TBuildingAI).Name})"
+                ai.GetMaterialAmount(
+                    buildingId,
+                    ref Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingId],
+                    Material,
+                    out var currentAmount,
+                    out var max
                 );
+                Debug.Log(
+                    $"Transferred {amount} ({currentAmount}/{max}) {Material} => \"{info.name}\" ({buildingId}) {info.GetService()}/{info.GetSubService()} ({ai.GetType().Name})"
+                );
+                
             }
         }
 
@@ -102,7 +113,9 @@ namespace InfiniteGoodsMod.Transfer {
                 return;
             }
 
-            TransferGoods(buildingId, info, ai, debug);
+            if (TransferCondition(ai)) {
+                TransferGoods(buildingId, info, ai, debug);
+            }
         }
     }
 }

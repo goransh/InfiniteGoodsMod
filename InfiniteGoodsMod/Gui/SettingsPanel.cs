@@ -18,6 +18,10 @@ namespace InfiniteGoodsMod.Gui {
                 AddCheckbox(commercialGroup, TransferDefinitions.CommercialLuxuryProducts, "Luxury Products");
             }
 
+            var powerPlantGroup = helper.AddGroup("Stock Power Plants with");
+            AddCheckbox(powerPlantGroup, TransferDefinitions.CoalPowerPlant, "Coal");
+            AddCheckbox(powerPlantGroup, TransferDefinitions.OilPowerPlant, "Oil");
+
             var specializedIndustrialGroup = helper.AddGroup("Stock Specialized Industry with raw");
             AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedOil, "Oil");
             AddCheckbox(specializedIndustrialGroup, TransferDefinitions.SpecializedOre, "Ore");

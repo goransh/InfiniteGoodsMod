@@ -6,19 +6,24 @@ namespace InfiniteGoodsMod.Settings {
     public enum SettingId {
         CommercialGoods,
         CommercialLuxuryProducts,
+
         SpecializedIndustryOil,
         SpecializedIndustryOre,
         SpecializedIndustryGrain,
         SpecializedIndustryLogs,
+
         GenericIndustryPetrol,
         GenericIndustryCoal,
         GenericIndustryFood,
         GenericIndustryLumber,
+
         ShelterGoods,
+
         PloppedIndustryOil,
         PloppedIndustryOre,
         PloppedIndustryGrain,
         PloppedIndustryLogs,
+
         UniqueIndustryAnimalProducts,
         UniqueIndustryFlours,
         UniqueIndustryPaper,
@@ -28,10 +33,14 @@ namespace InfiniteGoodsMod.Settings {
         UniqueIndustryGlass,
         UniqueIndustryMetals,
         UniqueIndustryGrain,
+
         FishingHarbor,
         FishingFarm,
         FishingMarket,
         FishingProcessing,
+
+        PowerPlantCoal,
+        PowerPlantOil,
 
         // Non goods transfer settings
         Debug,
