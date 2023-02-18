@@ -1,11 +1,10 @@
 ﻿using ICities;
-using InfiniteGoodsMod.Settings;
+using InfiniteGoodsMod.Gui;
 
 namespace InfiniteGoodsMod {
     public class ModIdentity : IUserMod {
         public const ulong WorkshopId = 725555912;
         public const string Version = "6.0";
-        public const bool DebugMode = true;
 
         public string Name => "Infinite Goods";
 

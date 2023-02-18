@@ -51,8 +51,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="GoodsTransfer.cs" />
-        <Compile Include="GoodsMonitor.cs" />
+        <Compile Include="Gui\SettingsPanel.cs" />
         <Compile Include="ModIdentity.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="LoadingExtension.cs" />
@@ -60,7 +59,9 @@
         <Compile Include="Settings\SettingId.cs" />
         <Compile Include="Settings\Settings.cs" />
         <Compile Include="Settings\SettingsFileParser.cs" />
-        <Compile Include="Settings\SettingsPanel.cs" />
+        <Compile Include="Transfer\TransferDefinition.cs" />
+        <Compile Include="Transfer\TransferDefinitions.cs" />
+        <Compile Include="Transfer\TransferMonitor.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>

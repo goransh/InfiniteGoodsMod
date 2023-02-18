@@ -2,14 +2,14 @@
 using ICities;
 using InfiniteGoodsMod.Settings;
 
-namespace InfiniteGoodsMod {
-    public class GoodsMonitor : ThreadingExtensionBase {
+namespace InfiniteGoodsMod.Transfer {
+    public class TransferMonitor : ThreadingExtensionBase {
         private readonly BuildingManager buildingManager;
         private readonly SimulationManager simulationManager;
 
         private readonly Settings.Settings settings;
 
-        public GoodsMonitor() {
+        public TransferMonitor() {
             buildingManager = Singleton<BuildingManager>.instance;
             simulationManager = Singleton<SimulationManager>.instance;
             settings = Settings.Settings.GetInstance();
@@ -27,7 +27,7 @@ namespace InfiniteGoodsMod {
             var debug = settings[SettingId.Debug];
 
             for (; buildingId < bufferSize; buildingId += 1000) {
-                foreach (var transfer in GoodsTransfer.GoodsTransfers) {
+                foreach (var transfer in TransferDefinitions.All) {
                     if (settings[transfer.Id]) {
                         transfer.TransferIfMatch(buildingId, debug);
                     }

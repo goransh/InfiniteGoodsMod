@@ -36,6 +36,6 @@ namespace InfiniteGoodsMod.Settings {
         }
 
         private static HashSet<SettingId> ReadSettingsOrDefault()
-            => SettingsFileParser.ReadSettings() ?? new HashSet<SettingId> { GoodsTransfer.CommercialGoods.Id };
+            => SettingsFileParser.ReadSettings() ?? new HashSet<SettingId> { SettingId.CommercialGoods };
     }
 }
