@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace InfiniteGoodsMod.Settings {
+    /// <summary>
+    /// These are used as IDs in settings. Must not be renamed.
+    /// </summary>
     public enum SettingId {
         CommercialGoods,
         CommercialLuxuryProducts,
@@ -18,6 +21,11 @@ namespace InfiniteGoodsMod.Settings {
         GenericIndustryLumber,
 
         ShelterGoods,
+
+        WarehouseOil,
+        WarehouseOre,
+        WarehouseGrain,
+        WarehouseLogs,
 
         PloppedIndustryOil,
         PloppedIndustryOre,

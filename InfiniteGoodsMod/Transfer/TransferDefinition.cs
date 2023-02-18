@@ -27,7 +27,7 @@ namespace InfiniteGoodsMod.Transfer {
         /// <summary>
         ///     The SubService to match for this transfer to be executed.
         /// </summary>
-        public SubService SubService { get; set; } = SubService.None;
+        public SubService SubService { get; internal set; } = SubService.None;
 
         /// <summary>
         ///     If true, the matcher won't check if the building's SubService matches before execution.
@@ -44,9 +44,12 @@ namespace InfiniteGoodsMod.Transfer {
         /// </summary>
         public SettingId Id { get; internal set; }
 
-        public Func<TBuildingAI, bool> TransferCondition { get; internal set; } = _ => true;
+        /// <summary>
+        ///     A custom transfer condition check for this transfer definition. Defaults to true.
+        /// </summary>
+        public Func<ushort, TBuildingAI, bool> TransferCondition { get; internal set; } = DefaultTransferCondition;
 
-        internal TransferDefinition() { }
+        private static bool DefaultTransferCondition(ushort buildingId, TBuildingAI ai) => true;
 
         /// <summary>
         ///     Get the building info for a building with <paramref name="buildingId" />.
@@ -113,7 +116,7 @@ namespace InfiniteGoodsMod.Transfer {
                 return;
             }
 
-            if (TransferCondition(ai)) {
+            if (TransferCondition(buildingId, ai)) {
                 TransferGoods(buildingId, info, ai, debug);
             }
         }

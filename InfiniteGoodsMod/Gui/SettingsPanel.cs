@@ -34,11 +34,17 @@ namespace InfiniteGoodsMod.Gui {
             AddCheckbox(genericIndustrialGroup, SettingId.GenericIndustryLumber, "Lumber");
 
             if (PlatformService.IsDlcInstalled(SteamHelper.kIndustryDLCAppID)) {
+                var warehouseGroup = helper.AddGroup("Stock Warehouses with");
+                AddCheckbox(warehouseGroup, SettingId.WarehouseOil, "Oil");
+                AddCheckbox(warehouseGroup, SettingId.WarehouseOre, "Ore");
+                AddCheckbox(warehouseGroup, SettingId.WarehouseGrain, "Crops");
+                AddCheckbox(warehouseGroup, SettingId.WarehouseLogs, "Logs");
+                
                 var playerRawIndustryGroup = helper.AddGroup("Stock Plopped Industry with");
                 AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryOil, "Oil");
                 AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryOre, "Ore");
                 AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryGrain, "Crops");
-                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryLogs, "Forestry");
+                AddCheckbox(playerRawIndustryGroup, SettingId.PloppedIndustryLogs, "Forest Products");
 
                 var uniqueFactoriesGroup = helper.AddGroup("Stock Unique Factories with");
                 AddCheckbox(uniqueFactoriesGroup, SettingId.UniqueIndustryAnimalProducts, "Animal Products");
