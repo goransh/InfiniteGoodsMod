@@ -1,17 +1,18 @@
 ﻿using ColossalFramework;
 using ICities;
+using InfiniteGoodsMod.Settings;
 
 namespace InfiniteGoodsMod {
     public class GoodsMonitor : ThreadingExtensionBase {
         private readonly BuildingManager buildingManager;
         private readonly SimulationManager simulationManager;
 
-        private readonly Settings settings;
+        private readonly Settings.Settings settings;
 
         public GoodsMonitor() {
             buildingManager = Singleton<BuildingManager>.instance;
             simulationManager = Singleton<SimulationManager>.instance;
-            settings = Settings.GetInstance();
+            settings = Settings.Settings.GetInstance();
         }
 
         /// <summary>
@@ -23,10 +24,12 @@ namespace InfiniteGoodsMod {
             var buildingId = (ushort)(simulationManager.m_currentTickIndex % 1000);
             var bufferSize = buildingManager.m_buildings.m_buffer.Length;
 
+            var debug = settings[SettingId.Debug];
+
             for (; buildingId < bufferSize; buildingId += 1000) {
                 foreach (var transfer in GoodsTransfer.GoodsTransfers) {
-                    if (settings.Get(transfer.Id)) {
-                        transfer.TransferIfMatch(buildingId);
+                    if (settings[transfer.Id]) {
+                        transfer.TransferIfMatch(buildingId, debug);
                     }
                 }
             }

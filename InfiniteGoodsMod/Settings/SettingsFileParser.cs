@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using UnityEngine;
 
-namespace InfiniteGoodsMod {
+namespace InfiniteGoodsMod.Settings {
     public static class SettingsFileParser {
         private const string ConfigPath = "InfiniteGoodsConfig.xml";
         private const string RootNodeName = "InfiniteGoods";
 
-        public static HashSet<string> ReadSettings() {
+        public static HashSet<SettingId> ReadSettings() {
             if (!File.Exists(ConfigPath)) {
+                Debug.Log($"No settings file found ({ConfigPath})");
                 return null;
             }
 
@@ -17,8 +20,9 @@ namespace InfiniteGoodsMod {
 
             try {
                 doc.Load(ConfigPath);
-            } catch (XmlException) {
-                //TODO error message?
+            } catch (Exception exception) {
+                Debug.LogError($"Failed to load settings file: {exception.Message}");
+                Debug.LogException(exception);
                 return null;
             }
 
@@ -41,23 +45,34 @@ namespace InfiniteGoodsMod {
                 return null;
             }
 
-            var set = new HashSet<string>();
+            var set = new HashSet<SettingId>();
 
             foreach (XmlNode node in settingNodes) {
                 if (bool.Parse(node.InnerText)) {
-                    set.Add(node.Name);
+                    var settingId = ParseSettingId(node.Name);
+                    set.Add(settingId);
                 }
             }
 
             return set;
         }
 
-        public static void WriteSettings(HashSet<string> set) {
+        private static SettingId ParseSettingId(string name) {
+            try {
+                return (SettingId)Enum.Parse(typeof(SettingId), name, ignoreCase: true);
+            } catch (Exception exception) {
+                Debug.LogError($"Failed to parse setting id {name}: {exception.Message}");
+                Debug.LogException(exception);
+                throw;
+            }
+        }
+
+        public static void WriteSettings(HashSet<SettingId> set) {
             var doc = new XmlDocument();
 
-            var xmldecl = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            var xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
             var root = doc.DocumentElement;
-            doc.InsertBefore(xmldecl, root);
+            doc.InsertBefore(xmlDeclaration, root);
 
             var rootNode = (XmlElement)doc.AppendChild(doc.CreateElement(RootNodeName));
             var versionNode = rootNode.AppendChild(doc.CreateElement("Version"));
@@ -65,9 +80,10 @@ namespace InfiniteGoodsMod {
 
             var settingsNode = rootNode.AppendChild(doc.CreateElement("Settings"));
 
-            foreach (var transfer in GoodsTransfer.GoodsTransfers) {
-                var setting = settingsNode.AppendChild(doc.CreateElement(transfer.Id));
-                setting.InnerText = set.Contains(transfer.Id).ToString();
+            foreach (var settingId in SettingIdExtensions.Values) {
+                var settingIdString = settingId.ToStringOptimized();
+                var setting = settingsNode.AppendChild(doc.CreateElement(settingIdString));
+                setting.InnerText = set.Contains(settingId).ToString();
             }
 
             doc.Save(ConfigPath);

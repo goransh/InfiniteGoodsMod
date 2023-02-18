@@ -1,7 +1,7 @@
 ﻿using ColossalFramework.PlatformServices;
 using ICities;
 
-namespace InfiniteGoodsMod {
+namespace InfiniteGoodsMod.Settings {
     internal class SettingsPanel {
         private readonly Settings settings;
 
@@ -59,14 +59,21 @@ namespace InfiniteGoodsMod {
                 var shelterGroup = helper.AddGroup("Stock Shelters with");
                 AddCheckbox(shelterGroup, GoodsTransfer.ShelterGoods, "Food");
             }
+
+            var advancedGroup = helper.AddGroup("Advanced");
+            AddCheckbox(advancedGroup, SettingId.Debug, "Debug mode");
         }
 
         private void AddCheckbox(UIHelperBase group, GoodsTransfer transfer, string settingTitle) {
+            AddCheckbox(group, transfer.Id, settingTitle);
+        }
+
+        private void AddCheckbox(UIHelperBase group, SettingId settingId, string settingTitle) {
             group.AddCheckbox(
                 settingTitle,
-                settings.Get(transfer.Id),
+                settings[settingId],
                 value => {
-                    settings.Set(transfer.Id, value);
+                    settings[settingId] = value;
                     settings.SaveSettings();
                 }
             );

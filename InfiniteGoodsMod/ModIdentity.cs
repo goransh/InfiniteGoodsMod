@@ -1,4 +1,5 @@
 ﻿using ICities;
+using InfiniteGoodsMod.Settings;
 
 namespace InfiniteGoodsMod {
     public class ModIdentity : IUserMod {
@@ -9,7 +10,6 @@ namespace InfiniteGoodsMod {
         public string Name => "Infinite Goods";
 
         public string Description => "Remove the need for industry (v" + Version + ")";
-
 
         public void OnSettingsUI(UIHelperBase helper) {
             var settingsPanel = new SettingsPanel();

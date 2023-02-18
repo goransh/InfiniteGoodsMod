@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColossalFramework;
+using InfiniteGoodsMod.Settings;
 using UnityEngine;
 using static ItemClass;
 using static TransferManager;
@@ -17,14 +18,14 @@ namespace InfiniteGoodsMod {
 
         // Commercial
         public static readonly GoodsTransfer CommercialGoods = new GoodsTransfer {
-            Id = "CommercialGoods",
+            Id = SettingId.CommercialGoods,
             Service = Service.Commercial,
             Material = TransferReason.Goods,
             AnySubService = true,
         };
 
         public static readonly GoodsTransfer CommercialLuxuryProducts = new GoodsTransfer {
-            Id = "CommercialLuxuryProducts",
+            Id = SettingId.CommercialLuxuryProducts,
             Service = Service.Commercial,
             Material = TransferReason.LuxuryProducts,
             AnySubService = true,
@@ -32,28 +33,28 @@ namespace InfiniteGoodsMod {
 
         // Specialized industry
         public static readonly GoodsTransfer SpecializedOil = new GoodsTransfer {
-            Id = "SpecializedIndustryOil",
+            Id = SettingId.SpecializedIndustryOil,
             Service = Service.Industrial,
             SubService = SubService.IndustrialOil,
             Material = TransferReason.Oil,
         };
 
         public static readonly GoodsTransfer SpecializedOre = new GoodsTransfer {
-            Id = "SpecializedIndustryOre",
+            Id = SettingId.SpecializedIndustryOre,
             Service = Service.Industrial,
             SubService = SubService.IndustrialOre,
             Material = TransferReason.Ore,
         };
 
         public static readonly GoodsTransfer SpecializedGrain = new GoodsTransfer {
-            Id = "SpecializedIndustryGrain",
+            Id = SettingId.SpecializedIndustryGrain,
             Service = Service.Industrial,
             SubService = SubService.IndustrialFarming,
             Material = TransferReason.Grain,
         };
 
         public static readonly GoodsTransfer SpecializedLogs = new GoodsTransfer {
-            Id = "SpecializedIndustryLogs",
+            Id = SettingId.SpecializedIndustryLogs,
             Service = Service.Industrial,
             SubService = SubService.IndustrialForestry,
             Material = TransferReason.Logs,
@@ -61,28 +62,28 @@ namespace InfiniteGoodsMod {
 
         // Generic industry
         public static readonly GoodsTransfer GenericPetrol = new GoodsTransfer {
-            Id = "GenericIndustryPetrol",
+            Id = SettingId.GenericIndustryPetrol,
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
             Material = TransferReason.Petrol,
         };
 
         public static readonly GoodsTransfer GenericCoal = new GoodsTransfer {
-            Id = "GenericIndustryCoal",
+            Id = SettingId.GenericIndustryCoal,
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
             Material = TransferReason.Coal,
         };
 
         public static readonly GoodsTransfer GenericFood = new GoodsTransfer {
-            Id = "GenericIndustryFood",
+            Id = SettingId.GenericIndustryFood,
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
             Material = TransferReason.Food,
         };
 
         public static readonly GoodsTransfer GenericLumber = new GoodsTransfer {
-            Id = "GenericIndustryLumber",
+            Id = SettingId.GenericIndustryLumber,
             Service = Service.Industrial,
             SubService = SubService.IndustrialGeneric,
             Material = TransferReason.Lumber,
@@ -90,7 +91,7 @@ namespace InfiniteGoodsMod {
 
         // Shelters
         public static readonly GoodsTransfer ShelterGoods = new GoodsTransfer {
-            Id = "ShelterGoods",
+            Id = SettingId.ShelterGoods,
             Service = Service.Disaster,
             SubService = SubService.None,
             Material = TransferReason.Goods,
@@ -98,28 +99,28 @@ namespace InfiniteGoodsMod {
 
         // Industries DLC raw
         public static readonly GoodsTransfer PloppedIndustryRawOil = new GoodsTransfer {
-            Id = "PloppedIndustryOil",
+            Id = SettingId.PloppedIndustryOil,
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryOil,
             Material = TransferReason.Oil,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawOre = new GoodsTransfer {
-            Id = "PloppedIndustryOre",
+            Id = SettingId.PloppedIndustryOre,
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryOre,
             Material = TransferReason.Ore,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawFarming = new GoodsTransfer {
-            Id = "PloppedIndustryGrain",
+            Id = SettingId.PloppedIndustryGrain,
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryFarming,
             Material = TransferReason.Grain,
         };
 
         public static readonly GoodsTransfer PloppedIndustryRawForestry = new GoodsTransfer {
-            Id = "PloppedIndustryLogs",
+            Id = SettingId.PloppedIndustryLogs,
             Service = Service.PlayerIndustry,
             SubService = SubService.PlayerIndustryForestry,
             Material = TransferReason.Logs,
@@ -127,63 +128,63 @@ namespace InfiniteGoodsMod {
 
         // Industries DLC processed
         public static readonly GoodsTransfer ProcessedAnimalProducts = new GoodsTransfer {
-            Id = "UniqueIndustryAnimalProducts",
+            Id = SettingId.UniqueIndustryAnimalProducts,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.AnimalProducts,
         };
 
         public static readonly GoodsTransfer ProcessedFlours = new GoodsTransfer {
-            Id = "UniqueIndustryFlours",
+            Id = SettingId.UniqueIndustryFlours,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Flours,
         };
 
         public static readonly GoodsTransfer ProcessedPaper = new GoodsTransfer {
-            Id = "UniqueIndustryPaper",
+            Id = SettingId.UniqueIndustryPaper,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Paper,
         };
 
         public static readonly GoodsTransfer ProcessedPlanedTimber = new GoodsTransfer {
-            Id = "UniqueIndustryPlanedTimber",
+            Id = SettingId.UniqueIndustryPlanedTimber,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.PlanedTimber,
         };
 
         public static readonly GoodsTransfer ProcessedPetroleum = new GoodsTransfer {
-            Id = "UniqueIndustryPetroleum",
+            Id = SettingId.UniqueIndustryPetroleum,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Petroleum,
         };
 
         public static readonly GoodsTransfer ProcessedPlastics = new GoodsTransfer {
-            Id = "UniqueIndustryPlastics",
+            Id = SettingId.UniqueIndustryPlastics,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Plastics,
         };
 
         public static readonly GoodsTransfer ProcessedGlass = new GoodsTransfer {
-            Id = "UniqueIndustryGlass",
+            Id = SettingId.UniqueIndustryGlass,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Glass,
         };
 
         public static readonly GoodsTransfer ProcessedMetals = new GoodsTransfer {
-            Id = "UniqueIndustryMetals",
+            Id = SettingId.UniqueIndustryMetals,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Metals,
         };
 
         public static readonly GoodsTransfer ProcessedCrops = new GoodsTransfer {
-            Id = "UniqueIndustryGrain",
+            Id = SettingId.UniqueIndustryGrain,
             Service = Service.PlayerIndustry,
             SubService = SubService.None,
             Material = TransferReason.Grain,
@@ -191,7 +192,7 @@ namespace InfiniteGoodsMod {
 
         // Sunset Harbor DLC Fishing Industry
         public static readonly GoodsTransfer FishingHarbor = new GoodsTransfer {
-            Id = "FishingHarbor",
+            Id = SettingId.FishingHarbor,
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
@@ -199,7 +200,7 @@ namespace InfiniteGoodsMod {
         };
 
         public static readonly GoodsTransfer FishingFarm = new GoodsTransfer {
-            Id = "FishingFarm",
+            Id = SettingId.FishingFarm,
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
@@ -207,7 +208,7 @@ namespace InfiniteGoodsMod {
         };
 
         public static readonly GoodsTransfer FishingMarket = new GoodsTransfer {
-            Id = "FishingMarket",
+            Id = SettingId.FishingMarket,
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
@@ -215,7 +216,7 @@ namespace InfiniteGoodsMod {
         };
 
         public static readonly GoodsTransfer FishingProcessing = new GoodsTransfer {
-            Id = "FishingProcessing",
+            Id = SettingId.FishingProcessing,
             Service = Service.Fishing,
             SubService = SubService.None,
             Material = TransferReason.Fish,
@@ -252,7 +253,7 @@ namespace InfiniteGoodsMod {
         /// <summary>
         ///     Id of this transfer, must be unique. Used in the settings file so any changes will break old saves.
         /// </summary>
-        public string Id { private set; get; }
+        public SettingId Id { private set; get; }
 
         private GoodsTransfer() {
             GoodsTransfers.Add(this);
@@ -272,7 +273,7 @@ namespace InfiniteGoodsMod {
             return Service.Equals(info.GetService()) && (AnySubService || SubService.Equals(info.GetSubService()));
         }
 
-        public void Transfer(ushort buildingId) {
+        public void Transfer(ushort buildingId, bool debug) {
             var building = BuildingManager.m_buildings.m_buffer[buildingId];
 
             var info = building.Info;
@@ -293,16 +294,16 @@ namespace InfiniteGoodsMod {
                 ref amount
             );
 
-            if (ModIdentity.DebugMode) {
+            if (debug) {
                 Debug.Log(
                     $"{Material} ({amount}) => \"{building.Info.name}\" {building.Info.GetService()}->{building.Info.GetSubService()} ({ai.GetType()})"
                 );
             }
         }
 
-        public void TransferIfMatch(ushort buildingId) {
+        public void TransferIfMatch(ushort buildingId, bool debug) {
             if (Matches(buildingId)) {
-                Transfer(buildingId);
+                Transfer(buildingId, debug);
             }
         }
     }

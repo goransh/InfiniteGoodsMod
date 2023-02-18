@@ -1,13 +1,30 @@
 ﻿using System.Collections.Generic;
 
-namespace InfiniteGoodsMod {
+namespace InfiniteGoodsMod.Settings {
     public class Settings {
         private static Settings Instance;
 
-        private readonly HashSet<string> activeTransfers;
+        private readonly HashSet<SettingId> _enabledSettings;
 
-        private Settings(HashSet<string> activeTransfers) {
-            this.activeTransfers = activeTransfers;
+        /// <summary>
+        ///     Get or set enabled/disabled state of a setting.
+        /// </summary>
+        /// <param name="settingId">
+        ///     The setting ID (property name).
+        /// </param>
+        public bool this[SettingId settingId] {
+            get => _enabledSettings.Contains(settingId);
+            set {
+                if (value) {
+                    _enabledSettings.Add(settingId);
+                } else {
+                    _enabledSettings.Remove(settingId);
+                }
+            }
+        }
+
+        private Settings(HashSet<SettingId> enabledSettings) {
+            _enabledSettings = enabledSettings;
         }
 
         public static Settings GetInstance() => Instance ?? LoadSettings();
@@ -15,25 +32,10 @@ namespace InfiniteGoodsMod {
         private static Settings LoadSettings() => Instance = new Settings(ReadSettingsOrDefault());
 
         public void SaveSettings() {
-            var settings = activeTransfers;
-            if (Instance == null) {
-                settings = ReadSettingsOrDefault();
-            }
-
-            SettingsFileParser.WriteSettings(settings);
+            SettingsFileParser.WriteSettings(_enabledSettings);
         }
 
-        public bool Get(string setting) => activeTransfers.Contains(setting);
-
-        public void Set(string setting, bool active) {
-            if (active) {
-                activeTransfers.Add(setting);
-            } else {
-                activeTransfers.Remove(setting);
-            }
-        }
-
-        private static HashSet<string> ReadSettingsOrDefault()
-            => SettingsFileParser.ReadSettings() ?? new HashSet<string> { GoodsTransfer.CommercialGoods.Id };
+        private static HashSet<SettingId> ReadSettingsOrDefault()
+            => SettingsFileParser.ReadSettings() ?? new HashSet<SettingId> { GoodsTransfer.CommercialGoods.Id };
     }
 }
