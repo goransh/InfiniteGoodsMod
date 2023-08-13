@@ -4,7 +4,7 @@ using InfiniteGoodsMod.Gui;
 namespace InfiniteGoodsMod {
     public class ModIdentity : IUserMod {
         public const ulong WorkshopId = 725555912;
-        public const string Version = "6.0";
+        public const string Version = "6.1";
 
         public string Name => "Infinite Goods";
 
